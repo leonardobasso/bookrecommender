@@ -1,0 +1,18 @@
+// Questo file contiene tutte le mixins del progetto.
+// Leonardo Basso
+
+// stilizzazione standard degli input
+@mixin default-box
+  background-color: rgba($lite, 0.03)
+  border: 1px solid rgba($lite, 0.03)
+  &:hover
+    border: 1px solid rgba($lite, 0.05)
+
+// stilizzazione customizzabile degli input
+@mixin custom-box($custom-box-color, $opacity, $hover-opacity)
+  background-color: rgba($custom-box-color, $opacity)
+  border: 1px solid rgba($custom-box-color, $opacity)
+  color: $custom-box-color
+  &:hover
+    border: 1px solid rgba($custom-box-color, $hover-opacity)
+

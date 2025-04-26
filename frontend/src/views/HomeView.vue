@@ -6,8 +6,8 @@ import { state } from '@/scripts/state.ts'
   <main>
     <center>
       <p v-if="state.user.isLogged">Ciao {{ state.user.userId }}</p>
-      <button style="margin-right: 1rem" @click=" state.user.setLogin('myUserID') " >Fake log in</button>
-      <button @click=" state.user.setLogOut() " >Fake log out</button> <br> <br>
+      <button style="margin-right: 1rem" @click=" state.user.setLogin('myUserID') " class="btn--green">Fake log in</button>
+      <button @click=" state.user.setLogOut() " class="btn--red">Fake log out</button> <br> <br>
       <textarea placeholder="Textarea"></textarea>
       <br>
       <input type="text" placeholder="Text Input">
@@ -21,7 +21,7 @@ import { state } from '@/scripts/state.ts'
       <h1>Main title</h1>
       <h2>Seconday title</h2>
       <p>Paragraph text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque magni, maiores odio rem soluta temporibus voluptatibus. Aliquam earum ipsam iure libero maiores molestiae nobis quidem, voluptates? Maxime odio odit temporibus.</p>
-
+      <button class="btn--link">Finto link</button>
     </center>
   </main>
 </template>
