@@ -1,0 +1,68 @@
+// Questo file contiene un reset e uno styling degli elementi css piu comuni
+// Leonardo Basso
+
+// Generale
+
+html, body
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+  border-radius: .5rem
+  background-color: $dark-gray
+  height: 100vh
+  overflow: hidden
+
+p, h1, h2, h3, h4, h5, h6, textarea, input, select, a, li, button
+  font-family: system-ui
+  color: $lite
+
+// Input "allargati"
+
+input, textarea, button, select
+  @include default-box
+  color: $lite
+  padding: .5rem
+  border-radius: .5rem
+  &:focus
+    outline: none
+    box-shadow: $standard-shadow
+
+  &::placeholder
+    color: rgba($lite, 0.5)
+
+input[type="checkbox"]
+  appearance: none
+  border-radius: .4rem
+  width: 20px
+  height: 20px
+  position: relative
+
+  &:checked:after
+    content: ""
+    position: absolute
+    left: 50%
+    top: 50%
+    height: .5rem
+    width: .5rem
+    background-color: $lite
+    border-radius: 50%
+    transform: translate(-50%, -50%)
+
+textarea
+  width: 800px
+  height: 300px
+  max-width: 80vh
+
+button, input[type="checkbox"]
+  cursor: pointer
+
+a
+  text-decoration: none
+
+li
+  list-style: none
+
+// Webkit elements
+::-webkit-scrollbar
+  display: none
+  opacity: 0
