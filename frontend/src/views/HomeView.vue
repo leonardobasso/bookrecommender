@@ -1,5 +1,19 @@
 <script setup lang="ts">
 import { state } from '@/scripts/state.ts'
+import {fetchImage} from "@/scripts/FetchImage.ts";
+import {onMounted, ref} from "vue";
+
+
+const imageUrl = ref('');
+
+async function loadImage(title) {
+  imageUrl.value = await fetchImage(title);
+}
+
+onMounted(() => {
+  loadImage('Barzellette Totti');
+});
+
 </script>
 
 <template>
@@ -21,7 +35,7 @@ import { state } from '@/scripts/state.ts'
       <h1>Main title</h1>
       <h2>Seconday title</h2>
       <p>Paragraph text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque magni, maiores odio rem soluta temporibus voluptatibus. Aliquam earum ipsam iure libero maiores molestiae nobis quidem, voluptates? Maxime odio odit temporibus.</p>
-      <button class="btn--link">Finto link</button>
+      <img :src="imageUrl" alt="">
     </center>
   </main>
 </template>
