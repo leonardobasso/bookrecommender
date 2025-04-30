@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { state } from '@/scripts/state.ts'
-import {fetchImage} from "@/scripts/FetchImage.ts";
+import {fetchImage} from "@/scripts/fetch-image.ts";
 import {onMounted, ref} from "vue";
 
 
