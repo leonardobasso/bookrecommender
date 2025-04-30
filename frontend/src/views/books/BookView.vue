@@ -1,0 +1,62 @@
+<script setup lang="ts">
+import { fetchImage } from '@/scripts/crud/fetch-image.ts'
+import { onMounted, ref } from 'vue'
+import Pill from "@/components/general/Pill.vue";
+
+const imageUrl = ref('')
+
+async function loadImage(title: string) {
+  imageUrl.value = await fetchImage(title)
+}
+
+onMounted(() => {
+  loadImage('Barzellette Totti')
+})
+</script>
+
+<template>
+  <section class="book_view">
+    <div class="book_view__content">
+      <div class="book_view__preview">
+        <img :src="imageUrl" alt="" class="book_view__cover" />
+        <div class="book_view__preview__data">
+          <h1 class="title">Tutte le Barzellette di Totti</h1>
+          <p>Francesco Totti, 2005</p>
+          <Pill content="Filosofia" />
+          <p class="description">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet assumenda dolore harum
+            magni non nostrum repellendus temporibus vero. Alias commodi dolor dolores ea inventore
+            laboriosam nam natus rerum saepe tempora.
+          </p>
+          <p>Costo: 20€</p>
+        </div>
+      </div>
+      <p>Altro contenuto</p>
+    </div>
+  </section>
+</template>
+
+<style scoped lang="sass">
+.book_view
+  display: flex
+  align-content: center
+  justify-content: center
+
+  .book_view__content
+    max-width: 80vw
+    width: 1000px
+
+    .book_view__preview
+      max-height: 550px
+      display: flex
+      gap: 1rem
+      @media screen and (max-width: 600px)
+        flex-direction: column
+        max-height: unset
+
+      .book_view__cover
+        max-width: 80vw
+        width: 700px
+        aspect-ratio: 9/16
+        border-radius: 1rem
+</style>

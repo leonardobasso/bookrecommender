@@ -37,11 +37,11 @@ import { RouterLink } from 'vue-router'
   height: calc(100vh - 5rem)
 
   .register__content
-    display: flex
-    flex-direction: column
-    gap: .6rem
     width: 400px
     max-width: 80vw
+    text-align: center
+    >*
+      margin-bottom: .6rem
     input
       width: 95.5%
     .register__double_input

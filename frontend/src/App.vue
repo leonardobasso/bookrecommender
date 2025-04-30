@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import TitleBar from '@/components/Window/TitleBar.vue'
+import TitleBar from '@/components/window/TitleBar.vue'
 </script>
 
 <template>
@@ -11,6 +11,7 @@ import TitleBar from '@/components/Window/TitleBar.vue'
           <RouterLink to="/">Home</RouterLink>
           <RouterLink style="margin: 0 .3rem" to="/login">Login</RouterLink>
           <RouterLink to="/registration">Register</RouterLink>
+          <RouterLink to="/books/book">Libro</RouterLink>
         </nav>
         <RouterView />
       </div>
