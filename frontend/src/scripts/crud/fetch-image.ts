@@ -1,3 +1,4 @@
+import Img from '../../assets/img/defaultCover.png'
 /**
  * Questa funzione, usango Google Book API, ritorna il link della copertina di un determinato libro
  * il cui titolo è dato in input
@@ -10,8 +11,9 @@ export async function fetchImage(title: string) {
   try {
     const resp: Response = await fetch(url)
     const data = await resp.json()
-    return data.items?.[0].volumeInfo.imageLinks.thumbnail || ''
+    return data.items?.[0].volumeInfo.imageLinks.thumbnail
   } catch(e) {
     console.log(e.message)
+    return Img
   }
 }
