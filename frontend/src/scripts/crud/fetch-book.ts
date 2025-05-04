@@ -13,8 +13,8 @@ export async function fetchBook(title: string) {
 
     const title: string = data.items?.[0].volumeInfo.title || ''
     console.log('titolo: ' + title)
-    const author: string = data.items?.[0].volumeInfo.authors?.[0] || ''
-    const category: string = data.items?.[0].volumeInfo.categories?.[0] || ''
+    const author: string = data.items?.[0].volumeInfo.authors?.[0] || 'Ignoto'
+    const category: string = data.items?.[0].volumeInfo.categories?.[0] || 'Nessuna categoria'
     const price: int = 20
     const description: string = 'lorem ipsum dolor sit amen'
     const year: int = data.items?.[0].volumeInfo.publishedDate || 0
