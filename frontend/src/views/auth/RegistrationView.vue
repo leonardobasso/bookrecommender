@@ -43,7 +43,7 @@ import { RouterLink } from 'vue-router'
     >*
       margin-bottom: .6rem
     input
-      width: 95.5%
+      width: 100%
     .register__double_input
       display: flex
       gap: .6rem
