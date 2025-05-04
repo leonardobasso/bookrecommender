@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * Questa View si occupa di gestire il Log In dell'utente
+ * Questa View si occupa di gestire il Log-In dell'utente
  * @author Leonardo Basso
  */
 import { RouterLink } from 'vue-router'
