@@ -4,6 +4,7 @@
  * @author Leonardo Basso
  */
 import { getCurrentWindow } from '@tauri-apps/api/window'
+
 const appWindow = getCurrentWindow()
 </script>
 
@@ -55,6 +56,7 @@ const appWindow = getCurrentWindow()
       width: .8rem
       height: .8rem
       border-radius: 100vh
+      cursor: pointer
 
     .minimize
       background-color: $light-blue
