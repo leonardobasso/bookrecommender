@@ -305,7 +305,7 @@ onMounted(() => {
       margin-top: 1rem
       gap: .6rem
       @media screen and (max-width: 600px)
-        grid-template-columns: repeat(1, 1fr)
+        grid-template-columns: repeat(2, 1fr)
 
       .book_view__review
         background-color: rgba($lite, 0.03)
