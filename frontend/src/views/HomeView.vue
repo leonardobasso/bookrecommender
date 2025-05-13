@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { state } from '@/scripts/state.ts'
-import Pill from "@/components/general/Pill.vue";
 
 // Dati di esempio per i libri
 const books = [
@@ -31,7 +30,9 @@ const books = [
     <section class="homepage__book__list">
       <div class="homepage__book__list__content">
         <article class="homepage__book" v-for="book in books" :key="book.title">
-          <p class="collapsed-text">{{ book.title }}</p>
+          <RouterLink to="/books/book">
+            <p class="collapsed-text">{{ book.title }}</p>
+          </RouterLink>
           <p class="collapsed-text">{{ book.author }}</p>
           <p class="collapsed-text">{{ book.year }}</p>
           <p class="collapsed-text"> {{book.category}}</p>
