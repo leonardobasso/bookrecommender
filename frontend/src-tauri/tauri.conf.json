@@ -15,6 +15,8 @@
         "title": "Book Recommender",
         "width": 800,
         "height": 600,
+        "minWidth": 550,
+        "minHeight": 550,
         "transparent": true,
         "resizable": true,
         "fullscreen": false,

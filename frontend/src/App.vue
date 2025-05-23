@@ -9,9 +9,8 @@ import TitleBar from '@/components/window/TitleBar.vue'
       <div class="wrapper">
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink style="margin: 0 .3rem" to="/login">Login</RouterLink>
-          <RouterLink to="/registration">Register</RouterLink>
-          <RouterLink to="/books/book">Libro</RouterLink>
+          <RouterLink to="/registration" style="margin: 0 .3rem" >Register</RouterLink>
+          <RouterLink to="/user/userid">User</RouterLink>
         </nav>
         <RouterView />
       </div>

@@ -94,7 +94,8 @@ npm install
 
 ```
 ### Primo avvio
-È necessario avere [Node](https://nodejs.org/en) installato sul proprio computer.
+> [!important]
+> È necessario avere [Node](https://nodejs.org/en) installato sul proprio computer.
 
 Per far partire il programma usare 
 

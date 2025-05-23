@@ -22,7 +22,7 @@ p, h1, h2, h3, h4, h5, h6, textarea, input, select, a, li, button, small
 
 // Input "allargati"
 
-input, textarea, button, select
+input, textarea, button, select, dialog
   @include default-box
   color: $lite
   padding: .5rem
@@ -61,6 +61,15 @@ textarea
 button, input[type="checkbox"]
   cursor: pointer
 
+dialog
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+
+  &::backdrop
+    background-color: rgba(0, 0, 0, 0.8)
+    backdrop-filter: blur(2px)
+
 a
   text-decoration: none
 
@@ -74,3 +83,8 @@ li
 
 img
   object-fit: cover
+
+
+svg
+  fill: $lite
+
