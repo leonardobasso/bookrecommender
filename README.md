@@ -94,7 +94,8 @@ npm install
 
 ```
 ### Primo avvio
-È necessario avere [Node](https://nodejs.org/en) installato sul proprio computer.
+>[!Important]
+> È necessario avere [Node](https://nodejs.org/en) installato sul proprio computer.
 
 Per far partire il programma usare 
 
@@ -105,25 +106,49 @@ npx tauri dev
 Il programma è in Developer Mode
 
 # Backend & DB
+
 ## Primo avvio
 > [!important]
 > È necessario avere [Docker](https://docs.docker.com/engine/install/) installato sul proprio computer.
 
-Su Linux (SystemD) per avviare Docker sono necessari i seguenti comandi
+Su Linux (SystemD) è necessario avviare Docker con:
 ```sh
 sudo systemctl start docker
-sudo docker compose build
-sudo docker compose up
 ```
 
-Non è necessario usare systemctl le volte successive alla prima apertura del programma.
+Su Windows tutti i comandi citati vanno eseguiti da amministratore
 
-Se vengono apportati cambiamenti al progetto non rilevati da docker, usare
+Per avviare il progetto usare nel terminale:
+
+**Linux:**
+```sh
+sudo docker compose up --build
+```
+**Windows (Powershell)**
+```sh
+docker-compose up --build
+```
+
+Se vengono apportati cambiamenti al progetto non rilevati da docker, usare:
+
+**Linux:**
 ```sh
 sudo docker system prune -a
-sudo docker compose up
+sudo docker compose up --build
 ```
-Per interrompere Docker è necessario scrivere
+**Windows (Powershell)**
 ```sh
-sudo systemctl start docker
+docker system prune -a
+docker-compose up --build
+```
+
+Per interrompere Docker è necessario scrivere:
+
+**Linux**
+```sh
+sudo docker compose down
+```
+**Windows(Powershell)**
+```sh
+docker-compose down
 ```

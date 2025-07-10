@@ -1,4 +1,4 @@
-CREATE TABLE utente
+CREATE TABLE Utente
 (
     UserId  VARCHAR(255) PRIMARY KEY,
     Nome    VARCHAR(255) NOT NULL,
@@ -7,23 +7,25 @@ CREATE TABLE utente
     Email   VARCHAR(255) UNIQUE
 );
 
-CREATE TABLE libro
+CREATE TABLE Libro
 (
-    id      VARCHAR(255) PRIMARY KEY,
-    Nome    VARCHAR(255)   NOT NULL,
-    Autore  VARCHAR(255)   NOT NULL,
-    Prezzo  DECIMAL(10, 4) NOT NULL,
-    MesePub VARCHAR(20)    NOT NULL,
-    AnnoPub INT            NOT NULL
+    id        VARCHAR(255) PRIMARY KEY,
+    Nome      VARCHAR(255)   NOT NULL,
+    Autore    VARCHAR(255)   NOT NULL,
+    Categoria VARCHAR(255),
+    Publisher VARCHAR(255)   NOT NULL,
+    Prezzo    DECIMAL(10, 4) NOT NULL,
+    MesePub   VARCHAR(20)    NOT NULL,
+    AnnoPub   INT            NOT NULL
 );
 
-CREATE TABLE libreria
+CREATE TABLE Libreria
 (
     LibreriaId VARCHAR(255) PRIMARY KEY,
     UserId     VARCHAR(255) REFERENCES utente (UserId)
 );
 
-CREATE TABLE libriconsigliati
+CREATE TABLE Libriconsigliati
 (
     UserId     VARCHAR(255) REFERENCES utente (UserId),
     LibreriaId VARCHAR(255) REFERENCES libreria (LibreriaId),
@@ -31,7 +33,7 @@ CREATE TABLE libriconsigliati
     PRIMARY KEY (UserId, LibroId)
 );
 
-CREATE TABLE recensione
+CREATE TABLE Recensione
 (
     UserId               VARCHAR(255) REFERENCES utente (UserId),
     LibroId              VARCHAR(255) REFERENCES libro (id),
