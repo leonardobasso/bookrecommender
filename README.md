@@ -103,3 +103,27 @@ npx tauri dev
 ```
 
 Il programma è in Developer Mode
+
+# Backend & DB
+## Primo avvio
+> [!important]
+> È necessario avere [Docker](https://docs.docker.com/engine/install/) installato sul proprio computer.
+
+Su Linux (SystemD) per avviare Docker sono necessari i seguenti comandi
+```sh
+sudo systemctl start docker
+sudo docker compose build
+sudo docker compose up
+```
+
+Non è necessario usare systemctl le volte successive alla prima apertura del programma.
+
+Se vengono apportati cambiamenti al progetto non rilevati da docker, usare
+```sh
+sudo docker system prune -a
+sudo docker compose up
+```
+Per interrompere Docker è necessario scrivere
+```sh
+sudo systemctl start docker
+```
