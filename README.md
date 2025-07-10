@@ -7,7 +7,7 @@
 <details>
 <summary>Debian/Ubuntu</summary>
 
-```sh
+```shell
 sudo apt update
 sudo apt install libwebkit2gtk-4.0-dev \
     build-essential \
@@ -23,7 +23,7 @@ sudo apt install libwebkit2gtk-4.0-dev \
 <details>
 <summary>Arch</summary>
 
-```sh
+```shell
 sudo pacman -Syu
 sudo pacman -S --needed \
     webkit2gtk \
@@ -42,7 +42,7 @@ sudo pacman -S --needed \
 <details>
 <summary>Fedora</summary>
 
-```sh
+```shell
 sudo dnf check-update
 sudo dnf install webkit2gtk4.0-devel \
     openssl-devel \
@@ -57,7 +57,7 @@ sudo dnf group install "C Development Tools and Libraries"
 <details> 
 <summary>OpenSuse</summary>
 
-```sh
+```shell
 sudo zypper up
 sudo zypper in webkit2gtk3-soup2-devel \
     libopenssl-devel \
