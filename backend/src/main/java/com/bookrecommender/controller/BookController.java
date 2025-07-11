@@ -38,7 +38,7 @@ public class BookController {
      * Controller per la ricerca di libri dato un url di ricerca <i>smth/search/param?</i>
      *
      * @param ctx Context
-     * @author Leonardo Basso
+     * @author Leonardo Basso, Lorenzo Beretta
      */
     public static void searchBook(Context ctx) {
         List<Book> books;

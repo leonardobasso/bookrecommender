@@ -2,9 +2,7 @@
 import { state } from '@/scripts/state.ts'
 import {fetchBooks} from "@/scripts/crud/fetch-books.ts";
 
-// Dati di esempio per i libri
 const books = await fetchBooks()
-console.log(books)
 </script>
 
 <template>
@@ -24,8 +22,8 @@ console.log(books)
 
     <section class="homepage__book__list">
       <div class="homepage__book__list__content">
-        <article class="homepage__book" v-for="book in books" :key="book.title">
-          <RouterLink to="/books/book">
+        <article class="homepage__book" v-for="book in books" :key="book.id">
+          <RouterLink to="/books/book" :id="book.id">
             <p class="collapsed-text">{{ book.title }}</p>
           </RouterLink>
           <p class="collapsed-text">{{ book.author }}</p>

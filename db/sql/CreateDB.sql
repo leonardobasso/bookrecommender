@@ -3,8 +3,8 @@ CREATE TABLE Utente
     UserId  VARCHAR(255) PRIMARY KEY,
     Nome    VARCHAR(255) NOT NULL,
     Cognome VARCHAR(255) NOT NULL,
-    Taxcode VARCHAR(255) UNIQUE,
-    Email   VARCHAR(255) UNIQUE
+    Taxcode VARCHAR(255) UNIQUE CHECK (Utente.Taxcode ~ '^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$'),
+    Email   VARCHAR(255) UNIQUE CHECK ( Utente.Email ~ '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
 
 CREATE TABLE Libro
@@ -27,10 +27,10 @@ CREATE TABLE Libreria
 
 CREATE TABLE Libriconsigliati
 (
-    UserId     VARCHAR(255) REFERENCES utente (UserId),
-    LibreriaId VARCHAR(255) REFERENCES libreria (LibreriaId),
-    LibroConsigliatoId    VARCHAR(255) REFERENCES libro (id),
-    LibroDeiConsigliId    VARCHAR(255) REFERENCES libro (id),
+    UserId             VARCHAR(255) REFERENCES utente (UserId),
+    LibreriaId         VARCHAR(255) REFERENCES libreria (LibreriaId),
+    LibroConsigliatoId VARCHAR(255) REFERENCES libro (id),
+    LibroDeiConsigliId VARCHAR(255) REFERENCES libro (id),
     PRIMARY KEY (UserId, LibroConsigliatoId, LibroDeiConsigliId)
 );
 
