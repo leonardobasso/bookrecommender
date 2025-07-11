@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { state } from '@/scripts/state.ts'
+import {fetchBooks} from "@/scripts/crud/fetch-books.ts";
 
 // Dati di esempio per i libri
-const books = [
-  { title: 'Le barzellette di Totti', author: 'Francesco Totti', year: 2019, category: 'Filosofia' },
-  { title: 'Un libro da un titolo davvero, ma davvero taaaaaanto luuuuuuuuuuungo', author: 'Autore Sconosciuto', year: 2020, category: 'Romanzo' },
-  { title: 'Altro Libro', author: 'Autore Sconosciuto', year: 2020, category: 'Romanzo' },
-  { title: 'Altro Libro', author: 'Autore Sconosciuto', year: 2020, category: 'Romanzo' },
-  { title: 'Altro Libro', author: 'Autore Sconosciuto', year: 2020, category: 'Romanzo' },
-  // Aggiungi altri libri qui
-]
+const books = await fetchBooks()
+console.log(books)
 </script>
 
 <template>

@@ -4,6 +4,8 @@ import TitleBar from '@/components/window/TitleBar.vue'
 </script>
 
 <template>
+  <Suspense>
+
   <main class="app">
       <TitleBar />
       <div class="wrapper">
@@ -15,6 +17,7 @@ import TitleBar from '@/components/window/TitleBar.vue'
         <RouterView />
       </div>
   </main>
+  </Suspense>
 </template>
 
 <style scoped lang="sass">
