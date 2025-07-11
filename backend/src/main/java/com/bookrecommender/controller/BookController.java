@@ -21,14 +21,14 @@ public class BookController {
      * @param ctx context
      * @author Leonardo Basso
      */
-    public void getAllBooks(Context ctx) {
-        BookSQL bookSQL = new BookSQL();
-        List<Book> books = bookSQL.getAllBooks();
+    public static void getAllBooks(Context ctx) {
+        List<Book> books = BookSQL.getAllBooks();
         ctx.json(books);
     }
 
-    public void getSingleBook(Context ctx) {
-
+    public  static void getSingleBook(Context ctx) {
+        Book book = BookSQL.getSingleBook(ctx.pathParam("id"));
+        ctx.json(book);
     }
 
     public void searchBook(Context ctx) {

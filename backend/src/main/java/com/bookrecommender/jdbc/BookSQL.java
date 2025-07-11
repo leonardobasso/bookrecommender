@@ -21,11 +21,11 @@ public class BookSQL {
      * @return Una lista con tutti i libri al suo interno
      * @author Leonardo Basso
      */
-    public List<Book> getAllBooks() {
+    public static List<Book> getAllBooks() {
         List<Book> books = new LinkedList<>();
 
         try (Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-             PreparedStatement statement = conn.prepareStatement("SELECT * FROM libro");
+             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Libro");
              ResultSet rs = statement.executeQuery()) {
 
             System.out.println("Getting all the books");
@@ -43,7 +43,29 @@ public class BookSQL {
             }
             return books;
         } catch (SQLException e) {
-            throw new RuntimeException("Error accessing the database.", e);
+            throw new RuntimeException("Error accessing the database at method getAllBooks(). ", e);
+        }
+    }
+
+    public static Book getSingleBook(String id) {
+        try {
+            Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Libro WHERE id = ?");
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            return new Book(
+                    rs.getString("id"),
+                    rs.getString("Nome"),
+                    rs.getString("Autore"),
+                    rs.getString("Categoria"),
+                    rs.getString("Publisher"),
+                    rs.getFloat("Prezzo"),
+                    rs.getString("MesePub"),
+                    rs.getInt("AnnoPub")
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

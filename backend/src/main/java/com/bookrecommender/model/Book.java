@@ -1,5 +1,8 @@
 package com.bookrecommender.model;
 
+/**
+ * Model del libro
+ */
 public class Book {
     private String id;
     private String nome;
