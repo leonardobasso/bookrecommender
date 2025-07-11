@@ -33,6 +33,7 @@ public class Review {
      * @param originalitaCommento Commento sull'originalita
      * @param edizioneCommento Commento sull'edizione
      * @param votoFinale Voto finale (1..5) derivato dalla media dei voti
+     * @author Leonardo Basso
      */
     public Review(String userId, String libroId, int stileVoto, int contenutoVoto,
                   int gradevolezzaVoto, int originalitaVoto, int edizioneVoto, String stileCommento,

@@ -116,7 +116,8 @@ Su Linux (SystemD) è necessario avviare Docker con:
 sudo systemctl start docker
 ```
 
-Prima di utilizzare Docker ènecessario generare il jar andando nella cartella di backend ed eseguendo (o usare un IDE)
+Prima di utilizzare Docker è necessario generare il jar andando nella cartella di backend ed eseguendo: (si può
+fare anche graficamente da un IDE)
 ```shell
  mvn clean package
  ```

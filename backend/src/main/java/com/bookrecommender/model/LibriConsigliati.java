@@ -15,6 +15,7 @@ public class LibriConsigliati {
      * @param libreriaId L'id della libreria che vede il libro consigliato
      * @param libroConsigliatoId L'id del libro che viene consigliato
      * @param libroDeiConsigliId L'id del libro che vede consigliare 3 libri
+     * @author Leonardo Basso
      */
     public LibriConsigliati(String userId, String libreriaId, String libroConsigliatoId, String libroDeiConsigliId) {
         this.userId = userId;
