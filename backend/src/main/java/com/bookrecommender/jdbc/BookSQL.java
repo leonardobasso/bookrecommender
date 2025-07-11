@@ -47,11 +47,11 @@ public class BookSQL {
         }
     }
 
-    public static Book getSingleBook(String id) {
+    public static Book getSingleBook(int id) {
         try {
             Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Libro WHERE id = ?");
-            statement.setString(1, id);
+            statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             rs.next();
             return new Book(

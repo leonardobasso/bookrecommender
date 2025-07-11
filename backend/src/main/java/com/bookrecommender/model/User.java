@@ -11,6 +11,7 @@ public class User {
     private String userID;
     private String nome;
     private String cognome;
+    private String password;
     private String taxcode;
     private String email;
 
@@ -24,10 +25,11 @@ public class User {
      * @param email   L'email dell'utente
      * @author Leonardo Basso
      */
-    public User(String userID, String nome, String cognome, String taxcode, String email) {
+    public User(String userID, String nome, String cognome, String password, String taxcode, String email) {
         this.userID = userID;
         this.nome = nome;
         this.cognome = cognome;
+        this.password = password;
         this.taxcode = taxcode;
         this.email = email;
     }
@@ -56,5 +58,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
