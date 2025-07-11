@@ -1,5 +1,12 @@
 public class LibrarySQL{
-
+    /**
+     * Tutte le operazioni di SQL/JDBC per le operazioni sulle librerie
+     *
+     *
+     * @author Lorenzo Beretta
+     * @see com.bookrecommender.model.Book
+     * @see com.bookrecommender.controller.BookController
+     */
     public static libreria getAllLibraries(String id) {
         try {
             Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
