@@ -10,16 +10,46 @@ import java.util.List;
 /**
  * Tutte le operazioni di SQL/JDBC per le operazioni sui libri
  *
- * @author Leonardo Basso
+ * @author Lorenzo Beretta
  * @see com.bookrecommender.model.Book
  * @see com.bookrecommender.controller.BookController
  */
 public class BookSQL {
     /**
+     * Esegue una query di inserimento di un libro nei libri consigliati dati libroId, libreriaId e
+     *
+     * @param name   Nome del libro
+     * @param author Autore del libro
+     * @param year   Anno di pubblicazione del libro
+     * @return Una lista con i libri ottenuti dalla ricerca
+     * @author Lorenzo Beretta
+     */
+    public static insertLibriConsigliati(int libroId, int libreriaId, int userId)
+    {
+        try (Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
+
+  { PreparedStatement statement = conn.prepareStatement(" INSERT INTO `libriconsigliati` (`UserId`, `LibreriaId`, `LibroId`) VAL   UES (?, ?, ?)");
+      pstmt.setInt(1,userId );
+      pstmt.setInt(2, libreriaId);
+      pstmt.setInt(3, LibroId);
+      int rowsInserted = pstmt.executeUpdate();
+      if (rowsInserted > 0) {
+          System.out.println("A new row was inserted successfully!");
+      }
+
+
+  } catch (SQLException e) {
+            throw new RuntimeException("Error accessing the database at method insertLibriConsigliati(). ", e);
+        }
+
+    }
+
+
+    /**
      * Esegue la query sql per ritornare una lista di tutti i libri
      *
      * @return Una lista con tutti i libri al suo interno
-     * @author Leonardo Basso
+     * @author Lorenzo Beretta
      */
     public static List<Book> getAllBooks() {
         List<Book> books = new LinkedList<>();
@@ -78,7 +108,7 @@ public class BookSQL {
      * @param author Autore del libro
      * @param year   Anno di pubblicazione del libro
      * @return Una lista con i libri ottenuti dalla ricerca
-     * @author Leonardo Basso
+     * @author Lorenzo Beretta
      */
     public static List<Book> searchBook(String name, String author, Integer year) {
         List<Book> books = new LinkedList<>();
@@ -135,5 +165,8 @@ public class BookSQL {
 
         return books;
     }
+
+
+
 
 }
