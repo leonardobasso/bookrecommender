@@ -4,8 +4,9 @@ package com.bookrecommender.model;
  * Model della libreria
  */
 public class Libreria {
-    private String libreriaID;
-    private String userID;
+    private String LibreriaId;
+    private String nomeLibreria;
+    private String userId;
 
     /**
      * Model della libreria
@@ -13,16 +14,22 @@ public class Libreria {
      * @param userID L'id dell'utente che ha creato la libreria
      * @author Leonardo Basso
      */
-    public Libreria(String libreriaID, String userID) {
-        this.libreriaID = libreriaID;
-        this.userID = userID;
+    public Libreria(String libreriaID, String nomeLibreria, String userID) {
+        this.LibreriaId = libreriaID;
+        this.nomeLibreria = nomeLibreria;
+        this.userId = userID;
+    }
+    public Libreria() {
+    }
+    public String getLibreriaId() {
+        return LibreriaId;
     }
 
-    public String getLibreriaID() {
-        return libreriaID;
+    public String getUserId() {
+        return userId;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getNomeLibreria() {
+        return nomeLibreria;
     }
 }

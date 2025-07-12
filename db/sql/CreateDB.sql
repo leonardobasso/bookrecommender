@@ -23,6 +23,7 @@ CREATE TABLE Libro
 CREATE TABLE Libreria
 (
     LibreriaId SERIAL PRIMARY KEY,
+    NomeLibreria VARCHAR(255) NOT NULL,
     UserId     VARCHAR(255) REFERENCES utente (UserId)
 );
 
