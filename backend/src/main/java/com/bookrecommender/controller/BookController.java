@@ -29,13 +29,29 @@ public class BookController {
         ctx.status(200);
     }
 
-
+    /**
+     * Ritorna i dati di tutti i libri consigliati riguardanti un certo libro e un determinato utente in formato json
+     *
+     * @param ctx context
+     * @author Lorenzo beretta
+     */
     public static void getLibriConsigliatiUtenteLibri(Context ctx) {
         List<Book> books = BookSQL.getLibriConsigliatiUtenteLibri();
         ctx.json(books);
         ctx.status(200);
     }
 
+    /**
+     * Ritorna i dati di tutti i libri consigliati riguardanti un certo libro e un determinato utente in formato json
+     *
+     * @param ctx context
+     * @author Lorenzo beretta
+     */
+    public static void getLibriConsigliatiLibri(Context ctx) {
+        List<Book> books = BookSQL.getLibriConsigliatiLibri();
+        ctx.json(books);
+        ctx.status(200);
+    }
 
     /**
      * Ritorna i dati di un  libro dato un id
