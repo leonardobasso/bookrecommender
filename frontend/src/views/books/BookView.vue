@@ -10,10 +10,13 @@ import {fetchBook} from '@/scripts/crud/fetch-book.ts'
 import StarRating from '@/components/books/StarRating.vue'
 import {state} from '@/scripts/state.ts'
 import {useRoute} from 'vue-router';
+import {fetchLibraries} from "@/scripts/crud/fetch-libraries.ts";
 
 const route = useRoute();
 const bookData = ref<any>(null);
 const errorMessage = ref<string | null>(null);
+const libraries = ref<Array<any>>([]);
+libraries.value = await fetchLibraries(state.user.userId)
 
 async function loadData(id: string) {
   try {
@@ -87,9 +90,9 @@ await loadData(route.params.id)
           <p>Le tue librerie:</p>
           <span class="modal-top__close-btn btn--os" @click="hideDialog(libraryDialog)"></span>
         </div>
-        <section class="book__save__libraries">
+        <section v-for="library in libraries" class="book__save__libraries">
           <div class="book__save__library">
-            <p class="book__save__library__name collapsed-text">Nome della Libreria</p>
+            <p class="book__save__library__name collapsed-text">{{ library.title}}</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -104,40 +107,21 @@ await loadData(route.params.id)
               />
             </svg>
           </div>
-          <div class="book__save__library">
-            <p class="book__save__library__name collapsed-text">Nome della Libreria</p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-plus-circle"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-              <path
-                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
-              />
-            </svg>
-          </div>
-          <div class="book__save__library svg-green">
-            <p class="book__save__library__name collapsed-text">Nome della Libreria</p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-check2-circle"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"
-              />
-              <path
-                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"
-              />
-            </svg>
-          </div>
+<!--            <svg-->
+<!--              xmlns="http://www.w3.org/2000/svg"-->
+<!--              width="16"-->
+<!--              height="16"-->
+<!--              fill="currentColor"-->
+<!--              class="bi bi-check2-circle"-->
+<!--              viewBox="0 0 16 16"-->
+<!--            >-->
+<!--              <path-->
+<!--                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"-->
+<!--              />-->
+<!--              <path-->
+<!--                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"-->
+<!--              />-->
+<!--            </svg>-->
         </section>
       </dialog>
       <div v-if="errorMessage" class="error-message">

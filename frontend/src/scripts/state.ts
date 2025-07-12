@@ -13,7 +13,7 @@ export const state = reactive({
     email: '',
     taxcode: '',
     /**
-     * Questa funzione cambia lo stato andando a inserire l'id dell'utente loggato e il parametro
+     * Questa funzione cambia lo stato andando a inserirei dati dell'utente loggato e il parametro
      * `isLogged` come `true`
      * @param id
      * @param name
@@ -31,7 +31,7 @@ export const state = reactive({
       this.isLogged = true
     },
     /**
-     * Questa funzione va a rimuovere il precedente userId e a pone `isLogged` come `false`
+     * Questa funzione va a rimuovere il precedente utente e a pone `isLogged` come `false`
      * @author Leonardo Basso
      */
     setLogOut(): void {

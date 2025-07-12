@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { state } from '@/scripts/state.ts'
 import {ref} from "vue";
+import {fetchLibraries} from "@/scripts/crud/fetch-libraries.ts";
 
 const modal = ref<HTMLDialogElement | null>(null)
-
+const libraries = ref<Array<any>>([]);
+libraries.value = await fetchLibraries(state.user.userId)
+console.log(libraries)
 /**
  * Questa funzione prende in input una reference a un dialog e lo mostra
  * @author Leonardo Basso
@@ -46,12 +49,8 @@ function hideDialog() {
             </svg>
           </div>
         </div>
-        <div class="user__view__elements">
-          <p class="user__view__el collapsed-text">I migliori libri di barzellette</p>
-          <p class="user__view__el collapsed-text">I migliori libri di Totti</p>
-          <p class="user__view__el collapsed-text">I migliori libri der pupone</p>
-          <p class="user__view__el collapsed-text">Il meglio di Kant, Kropotkin e Pomponazzi in una sola raccolta</p>
-          <p class="user__view__el collapsed-text">Analisi matematica e del sangue</p>
+        <div class="user__view__elements" v-for="library in libraries">
+          <p class="user__view__el collapsed-text">{{ library.title }}</p>
         </div>
         <dialog class="user__view__add__library" ref="modal">
           <div class="user__view__add__library__top">
