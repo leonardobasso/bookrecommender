@@ -69,10 +69,10 @@ function hideDialog() {
           <h2>Le mie info</h2>
         </div>
         <div class="user__view__elements">
-          <p class="user__view__el collapsed-text"><strong>UserID: </strong> UserId</p>
-          <p class="user__view__el collapsed-text"><strong>Nome: </strong> Gianni Stendipanni</p>
-          <p class="user__view__el collapsed-text"><strong>Email: </strong> mrstendipanni@gmail.com</p>
-          <p class="user__view__el collapsed-text"><strong>Codice Fiscale: </strong> ABCD123COM23</p>
+          <p class="user__view__el collapsed-text"><strong>UserID: </strong> {{ state.user.userId }}</p>
+          <p class="user__view__el collapsed-text"><strong>Nome: </strong> {{ state.user.name }} {{state.user.surname}}</p>
+          <p class="user__view__el collapsed-text"><strong>Email: </strong> {{state.user.email}}</p>
+          <p class="user__view__el collapsed-text"><strong>Codice Fiscale: </strong> {{state.user.taxcode}}</p>
         </div>
       </section>
     </div>

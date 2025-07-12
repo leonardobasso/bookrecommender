@@ -4,11 +4,13 @@
  * @author Leonardo Basso
  */
 import { RouterLink } from 'vue-router'
+import {state} from "@/scripts/state.ts";
 </script>
 
 <template>
   <section class="register">
-    <div class="register__content">
+    <p v-if="state.user.isLogged"> Sei già loggato come <u>{{ state.user.userId }}</u></p>
+    <div v-if="!state.user.isLogged" class="register__content">
       <div class="register__double_input">
         <input type="text" placeholder="Nome" />
         <input type="text" placeholder="Cognome" />
