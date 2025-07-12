@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Controller per le operazioni sui libri
  *
- * @author Leonardo Basso
+ * @author Lorenzo Beretta
  * @see com.bookrecommender.model.Book
  * @see com.bookrecommender.jdbc.BookSQL
  */
@@ -21,7 +21,7 @@ public class BookController {
      * Ritorna i dati di tutti i libri salvati sul database in formato json
      *
      * @param ctx context
-     * @author Leonardo Basso
+     * @author Lorenzo beretta
      */
     public static void getAllBooks(Context ctx) {
         List<Book> books = BookSQL.getAllBooks();
@@ -29,11 +29,19 @@ public class BookController {
         ctx.status(200);
     }
 
+
+    public static void getLibriConsigliatiUtenteLibri(Context ctx) {
+        List<Book> books = BookSQL.getLibriConsigliatiUtenteLibri();
+        ctx.json(books);
+        ctx.status(200);
+    }
+
+
     /**
      * Ritorna i dati di un  libro dato un id
      *
      * @param ctx context
-     * @author Leonardo Basso
+     * @author Lorenzo Beretta
      */
     public static void getSingleBook(Context ctx) {
         try {
@@ -83,11 +91,26 @@ public class BookController {
 
     }
 
-    public void insertReview(Context ctx) {
-
-    }
-
+    /**
+     * Controller per l'inserimento di un libro tra i libri consigliati
+     *
+     * @param ctx Context
+     * @author Leonardo Basso, Lorenzo Beretta
+     */
     public void insertSuggestion(Context ctx) {
+        try
+        insertLibriConsigliati();
+        ctx.status(200).json(Map.of(
+                "status", "success",
+                "body", books
+        ));
+    catch(Exception e)
+        {
+            ctx.status(200).json(Map.of(
+                    "status", "error",
+                    "body", e.getMessage()
+
+        }
 
     }
 }
