@@ -78,6 +78,7 @@ public class LibrarySQL {
                         rs.getString("id"),
                         rs.getString("Nome"),
                         rs.getString("Autore"),
+                        rs.getString("Descrizione"),
                         rs.getString("Categoria"),
                         rs.getString("Publisher"),
                         rs.getFloat("Prezzo"),

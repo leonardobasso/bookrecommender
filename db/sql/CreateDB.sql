@@ -1,3 +1,16 @@
+CREATE TABLE Libro
+(
+    id          INT PRIMARY KEY,
+    Nome        VARCHAR(255)   NOT NULL,
+    Autore      VARCHAR(255)   NOT NULL,
+    Descrizione VARCHAR(255),
+    Categoria   VARCHAR(255),
+    Publisher   VARCHAR(255)   NOT NULL,
+    Prezzo      DECIMAL(10, 4) NOT NULL,
+    MesePub     VARCHAR(20)    NOT NULL,
+    AnnoPub     INT            NOT NULL
+);
+
 CREATE TABLE Utente
 (
     UserId   VARCHAR(255) PRIMARY KEY,
@@ -8,23 +21,11 @@ CREATE TABLE Utente
     Email    VARCHAR(255) UNIQUE CHECK ( Utente.Email ~ '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
 
-CREATE TABLE Libro
-(
-    id        INT PRIMARY KEY,
-    Nome      VARCHAR(255)   NOT NULL,
-    Autore    VARCHAR(255)   NOT NULL,
-    Categoria VARCHAR(255),
-    Publisher VARCHAR(255)   NOT NULL,
-    Prezzo    DECIMAL(10, 4) NOT NULL,
-    MesePub   VARCHAR(20)    NOT NULL,
-    AnnoPub   INT            NOT NULL
-);
-
 CREATE TABLE Libreria
 (
-    LibreriaId SERIAL PRIMARY KEY,
+    LibreriaId   SERIAL PRIMARY KEY,
     NomeLibreria VARCHAR(255) NOT NULL,
-    UserId     VARCHAR(255) REFERENCES utente (UserId)
+    UserId       VARCHAR(255) REFERENCES utente (UserId)
 );
 
 CREATE TABLE LibroInLibreria

@@ -23,7 +23,7 @@ const books = await fetchBooks()
     <section class="homepage__book__list">
       <div class="homepage__book__list__content">
         <article class="homepage__book" v-for="book in books" :key="book.id">
-          <RouterLink to="/books/book" :id="book.id">
+          <RouterLink :to="`/books/book/${book.id}`" :id="book.id">
             <p class="collapsed-text">{{ book.title }}</p>
           </RouterLink>
           <p class="collapsed-text">{{ book.author }}</p>

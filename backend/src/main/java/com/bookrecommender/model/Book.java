@@ -7,6 +7,7 @@ public class Book {
     private String id;
     private String nome;
     private String autore;
+    private String descrizione;
     private String categoria;
     private String publisher;
     private float prezzo;
@@ -18,6 +19,7 @@ public class Book {
      * @param id Id del libro
      * @param nome Nome del libro
      * @param autore Nome autore del libro
+     * @param descrizione Descrizione del libro
      * @param categoria Categoria del libro
      * @param publisher Publisher del libro
      * @param prezzo Prezzo del libro
@@ -28,10 +30,11 @@ public class Book {
      * @see com.bookrecommender.controller.BookController
      * @author Leonardo Basso
      */
-    public Book(String id, String nome, String autore, String categoria, String publisher, float prezzo, String mesePub, int annoPub) {
+    public Book(String id, String nome, String autore, String descrizione, String categoria, String publisher, float prezzo, String mesePub, int annoPub) {
         this.id = id;
         this.nome = nome;
         this.autore = autore;
+        this.descrizione = descrizione;
         this.categoria = categoria;
         this.publisher = publisher;
         this.prezzo = prezzo;
@@ -67,5 +70,9 @@ public class Book {
 
     public int getAnnoPub() {
         return annoPub;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
     }
 }

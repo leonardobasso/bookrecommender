@@ -1,31 +1,42 @@
+import {fetchImage} from "@/scripts/crud/fetch-image.ts";
+
 /**
  * Wrapper per il fetch dei dati sul singolo libro da cercare
  *
- * @param title - Il titolo del libro, il quale funge da chiave
+ * Viene generato in automatico usando una api di google il link per la copertina del libro
+ *
+ * @param id - Il titolo del libro, il quale funge da chiave
  * @return un dizionario contenente tutti i dati del libro
  * @author Leonardo Basso
  */
-export async function fetchBook(title: string) {
-  const url: string = 'https://www.googleapis.com/books/v1/volumes?q=' + title
+export async function fetchBook(id: string) {
+  const url = `http://localhost:7070/api/book/${id}`;
   try {
-    const resp: Response = await fetch(url)
-    const data = await resp.json()
+    const resp = await fetch(url);
+    if (!resp.ok) {
+      throw new Error(`Errore HTTP: ${resp.status}`);
+    }
 
-    const title: string = data.items?.[0].volumeInfo.title || ''
-    console.log('titolo: ' + title)
-    const author: string = data.items?.[0].volumeInfo.authors?.[0] || 'Ignoto'
-    const category: string = data.items?.[0].volumeInfo.categories?.[0] || 'Nessuna categoria'
-    const price: int = 20
-    const description: string = 'lorem ipsum dolor sit amen'
-    const year: int = data.items?.[0].volumeInfo.publishedDate || 0
-
-    return { title: title,
-      author: author,
-      category: category,
-      price: price,
-      year: year,
-      description: description }
-  } catch (e) {
-    console.log(e.message)
+    const data = await resp.json();
+    if (data.status !== 'success' || !data.body) {
+      throw new Error(`Errore API: ${data.status}`);
+    }
+    const bookData = data.body;
+    const imageUrl = await fetchImage(bookData.nome)
+    return {
+      id: bookData.id,
+      title: bookData.nome,
+      author: bookData.autore,
+      image: imageUrl,
+      category: bookData.categoria,
+      price: bookData.prezzo,
+      year: bookData.annoPub,
+      description: bookData.descrizione,
+      publisher: bookData.publisher,
+      month: bookData.mesePub
+    };
+  } catch (e: any) {
+    console.error("fetchBook error:", e.message);
+    throw e;
   }
 }
