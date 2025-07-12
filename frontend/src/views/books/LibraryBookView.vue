@@ -15,7 +15,7 @@ books.value = await fetchLibraryDetails(libraryId)
 
 <template>
   <main class="librarypage">
-    <h2 class="librarypage__title">Libri della libreria {{ libraryId }}</h2>
+    <h2 class="librarypage__title">Libri: </h2>
 
     <section class="librarypage__book__list">
       <div class="librarypage__book__list__content">

@@ -9,10 +9,12 @@ import Pill from '@/components/general/Pill.vue'
 import {fetchBook} from '@/scripts/crud/fetch-book.ts'
 import StarRating from '@/components/books/StarRating.vue'
 import {state} from '@/scripts/state.ts'
-import {useRoute} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 import {fetchLibraries} from "@/scripts/crud/fetch-libraries.ts";
+import {addBookInLibrary} from "@/scripts/crud/add-book-in-library.ts";
 
 const route = useRoute();
+const router = useRouter()
 const bookData = ref<any>(null);
 const errorMessage = ref<string | null>(null);
 const libraries = ref<Array<any>>([]);
@@ -30,6 +32,11 @@ async function loadData(id: string) {
     errorMessage.value = error.message || "Failed to load book data.";
     console.error("Failed to load book data:", error);
   }
+}
+
+async function handleAddToLibrary(libId: string) {
+  await addBookInLibrary(route.params.id, libId)
+  router.push(`/library/books/${libId}`)
 }
 
 const libraryDialog = ref<HTMLDialogElement | null>(null)
@@ -90,9 +97,9 @@ await loadData(route.params.id)
           <p>Le tue librerie:</p>
           <span class="modal-top__close-btn btn--os" @click="hideDialog(libraryDialog)"></span>
         </div>
-        <section v-for="library in libraries" class="book__save__libraries">
-          <div class="book__save__library">
-            <p class="book__save__library__name collapsed-text">{{ library.title}}</p>
+        <section v-for="library  in libraries" :key="library.id" class="book__save__libraries">
+          <div class="book__save__library" @click="handleAddToLibrary(library.id)">
+            <p class="book__save__library__name collapsed-text">{{ library.title }}</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -107,21 +114,21 @@ await loadData(route.params.id)
               />
             </svg>
           </div>
-<!--            <svg-->
-<!--              xmlns="http://www.w3.org/2000/svg"-->
-<!--              width="16"-->
-<!--              height="16"-->
-<!--              fill="currentColor"-->
-<!--              class="bi bi-check2-circle"-->
-<!--              viewBox="0 0 16 16"-->
-<!--            >-->
-<!--              <path-->
-<!--                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"-->
-<!--              />-->
-<!--              <path-->
-<!--                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"-->
-<!--              />-->
-<!--            </svg>-->
+          <!--            <svg-->
+          <!--              xmlns="http://www.w3.org/2000/svg"-->
+          <!--              width="16"-->
+          <!--              height="16"-->
+          <!--              fill="currentColor"-->
+          <!--              class="bi bi-check2-circle"-->
+          <!--              viewBox="0 0 16 16"-->
+          <!--            >-->
+          <!--              <path-->
+          <!--                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"-->
+          <!--              />-->
+          <!--              <path-->
+          <!--                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"-->
+          <!--              />-->
+          <!--            </svg>-->
         </section>
       </dialog>
       <div v-if="errorMessage" class="error-message">
