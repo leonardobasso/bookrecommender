@@ -24,7 +24,7 @@ CREATE TABLE Utente
 CREATE TABLE Libreria
 (
     LibreriaId   SERIAL PRIMARY KEY,
-    NomeLibreria VARCHAR(255) NOT NULL,
+    NomeLibreria VARCHAR(255) UNIQUE NOT NULL,
     UserId       VARCHAR(255) REFERENCES utente (UserId)
 );
 
