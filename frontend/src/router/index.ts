@@ -24,9 +24,10 @@ const router = createRouter({
       component: RegistrationView,
     },
     {
-      path: '/books/book',
+      path: '/books/book/:id',
       name: 'book',
       component: BookView,
+      props: true,
     },
     {
       path: '/user/userid',

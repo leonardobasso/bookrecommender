@@ -6,6 +6,7 @@ import com.bookrecommender.model.Book;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller per le operazioni sui libri
@@ -28,17 +29,33 @@ public class BookController {
         ctx.status(200);
     }
 
+    /**
+     * Ritorna i dati di un  libro dato un id
+     *
+     * @param ctx context
+     * @author Leonardo Basso
+     */
     public static void getSingleBook(Context ctx) {
-        Book book = BookSQL.getSingleBook(ctx.pathParam("id"));
-        ctx.json(book);
-        ctx.status(200);
+        try {
+            Book book = BookSQL.getSingleBook(Integer.parseInt(ctx.pathParam("id")));
+            ctx.status(200).json(Map.of(
+                    "status", "success",
+                    "body", book
+            ));
+        } catch (Exception e) {
+            ctx.status(500).json(Map.of(
+                    "status", "error",
+                    "body", e.getMessage()
+            ));
+        }
+
     }
 
     /**
      * Controller per la ricerca di libri dato un url di ricerca <i>smth/search/param?</i>
      *
      * @param ctx Context
-     * @author Leonardo Basso
+     * @author Leonardo Basso, Lorenzo Beretta
      */
     public static void searchBook(Context ctx) {
         List<Book> books;
@@ -46,9 +63,24 @@ public class BookController {
         String author = ctx.queryParam("autore");
         String year = ctx.queryParam("annoPub");
 
-        Integer yearInt = (year != null) ? Integer.parseInt(year) : null;
-        books = BookSQL.searchBook(name, author, yearInt);
-        ctx.json(books);
+        Integer yearInt;
+        if (year != null) {
+            yearInt = Integer.parseInt(year);
+        } else yearInt = null;
+        try {
+            books = BookSQL.searchBook(name, author, yearInt);
+            ctx.status(200).json(Map.of(
+                    "status", "success",
+                    "body", books
+            ));
+        } catch (Exception e) {
+            ctx.status(200).json(Map.of(
+                    "status", "error",
+                    "body", e.getMessage()
+            ));
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void insertReview(Context ctx) {

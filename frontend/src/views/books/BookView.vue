@@ -4,22 +4,33 @@
  * dell'utente, se questo è loggato, sarà possibile inserire le proprie valutazioni
  * @author Leonardo Basso
  */
-import { fetchImage } from '@/scripts/crud/fetch-image.ts'
-import { onMounted, ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import Pill from '@/components/general/Pill.vue'
-import { fetchBook } from '@/scripts/crud/fetch-book.ts'
+import {fetchBook} from '@/scripts/crud/fetch-book.ts'
 import StarRating from '@/components/books/StarRating.vue'
-import { state } from '@/scripts/state.ts'
+import {state} from '@/scripts/state.ts'
+import { useRoute } from 'vue-router';
 
-const imageUrl = ref('')
-const bookData = ref('')
+const route = useRoute();
+const imageUrl = ref('');
+const bookData = ref<any>(null);
+const errorMessage = ref<string | null>(null);
+async function loadData(id: string) {
+  try {
+    const book = await fetchBook(id);
+    if (book) {
+      bookData.value = book;
+    } else {
+      errorMessage.value = "Nessun dato ricevuto.";
+    }
+  } catch (error) {
+    errorMessage.value = error.message || "Failed to load book data.";
+    console.error("Failed to load book data:", error);
+  }
+}
+
 const libraryDialog = ref<HTMLDialogElement | null>(null)
 const valutationDialog = ref<HTMLDialogElement | null>(null)
-
-async function loadData(title: string) {
-  imageUrl.value = await fetchImage(title)
-  bookData.value = await fetchBook(title)
-}
 
 /**
  * Questa funzione prende in input una reference a un dialog e lo mostra
@@ -43,9 +54,8 @@ function hideDialog(modal: typeof libraryDialog.value) {
   }
 }
 
-onMounted(() => {
-  loadData('Le migliori barzellette su totti e il calcio')
-})
+await loadData(route.params.id)
+
 </script>
 
 <template>
@@ -88,7 +98,7 @@ onMounted(() => {
               class="bi bi-plus-circle"
               viewBox="0 0 16 16"
             >
-              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
               <path
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
               />
@@ -104,7 +114,7 @@ onMounted(() => {
               class="bi bi-plus-circle"
               viewBox="0 0 16 16"
             >
-              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
               <path
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
               />
@@ -130,18 +140,17 @@ onMounted(() => {
           </div>
         </section>
       </dialog>
-      <section class="book_view__preview">
-        <img :src="imageUrl" alt="" class="book_view__cover" />
+      <div v-if="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      <section v-else class="book_view__preview">
+        <img :src="bookData.image" alt="" class="book_view__cover"/>
         <div class="book_view__preview__data">
-          <StarRating :rating="4" :readonly="true" />
+          <StarRating :rating="4" :readonly="true"/>
           <h1 class="book_view__preview__title">{{ bookData.title }}</h1>
           <p>{{ bookData.author }}, {{ bookData.year }}</p>
-          <Pill :content="bookData.category" />
-          <p class="description">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet assumenda dolore harum
-            magni non nostrum repellendus temporibus vero. Alias commodi dolor dolores ea inventore
-            laboriosam nam natus rerum saepe tempora.
-          </p>
+          <Pill :content="bookData.category"/>
+          <p class="description">{{bookData.description}}</p>
           <p>Costo: {{ bookData.price }}€</p>
         </div>
       </section>
@@ -195,27 +204,27 @@ onMounted(() => {
         <label class="book__view__evaluate__label">
           <div class="book__view__evaluate__input">
             <h3>Gradevolezza</h3>
-            <StarRating :rating="1" />
+            <StarRating :rating="1"/>
             <textarea placeholder="Gradevolezza"></textarea>
           </div>
           <div class="book__view__evaluate__input">
             <h3>Stile</h3>
-            <StarRating :rating="1" />
+            <StarRating :rating="1"/>
             <textarea placeholder="Stile"></textarea>
           </div>
           <div class="book__view__evaluate__input">
             <h3>Contenuto</h3>
-            <StarRating :rating="1" />
+            <StarRating :rating="1"/>
             <textarea placeholder="Contenuto"></textarea>
           </div>
           <div class="book__view__evaluate__input">
             <h3>Originalità</h3>
-            <StarRating :rating="1" />
+            <StarRating :rating="1"/>
             <textarea placeholder="Originalità"></textarea>
           </div>
           <div class="book__view__evaluate__input">
             <h3>Edizione</h3>
-            <StarRating :rating="1" />
+            <StarRating :rating="1"/>
             <textarea placeholder="Edizione"></textarea>
           </div>
           <button class="btn--green">Valuta</button>

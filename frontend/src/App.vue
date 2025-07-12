@@ -4,8 +4,6 @@ import TitleBar from '@/components/window/TitleBar.vue'
 </script>
 
 <template>
-  <Suspense>
-
   <main class="app">
       <TitleBar />
       <div class="wrapper">
@@ -14,10 +12,16 @@ import TitleBar from '@/components/window/TitleBar.vue'
           <RouterLink to="/registration" style="margin: 0 .3rem" >Register</RouterLink>
           <RouterLink to="/user/userid">User</RouterLink>
         </nav>
-        <RouterView />
+        <Suspense>
+          <template #default>
+            <RouterView />
+          </template>
+          <template #fallback>
+            <div style="color: red">Caricamento in corso...</div>
+          </template>
+        </Suspense>
       </div>
   </main>
-  </Suspense>
 </template>
 
 <style scoped lang="sass">
