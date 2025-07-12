@@ -1,3 +1,9 @@
+/**
+ * Wrapper per aggiungere un libro a una libreria
+ * @param bookId l'id del libro
+ * @param libraryId l'id della libreira
+ * @author Leonardo Basso
+ */
 export async function addBookInLibrary(bookId: string, libraryId: string) {
   try {
     const url: string = `http://localhost:7070/api/library/add/book`
