@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import {state} from "@/scripts/state.ts"
 import TitleBar from '@/components/window/TitleBar.vue'
 </script>
 
@@ -8,9 +9,9 @@ import TitleBar from '@/components/window/TitleBar.vue'
       <TitleBar />
       <div class="wrapper">
         <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/registration" style="margin: 0 .3rem" >Register</RouterLink>
-          <RouterLink to="/user/userid">User</RouterLink>
+          <RouterLink class="link" to="/">Home</RouterLink>
+          <RouterLink class="link" v-if="!state.user.isLogged" to="/registration" >Register</RouterLink>
+          <RouterLink class="link" v-if="state.user.isLogged" to="/user/userid">User</RouterLink>
         </nav>
         <Suspense>
           <template #default>
@@ -33,4 +34,6 @@ import TitleBar from '@/components/window/TitleBar.vue'
     overflow-y: scroll
     height: calc(100vh - 2.5rem)
     width: calc(100vw - 2rem)
+  .link
+    margin-right: .3rem
 </style>
