@@ -3,8 +3,6 @@ import {fetchImage} from "@/scripts/crud/fetch-image.ts";
 /**
  * Wrapper per il fetch dei dati sul singolo libro da cercare
  *
- * Viene generato in automatico usando una api di google il link per la copertina del libro
- *
  * @param id - Il titolo del libro, il quale funge da chiave
  * @return un dizionario contenente tutti i dati del libro
  * @author Leonardo Basso

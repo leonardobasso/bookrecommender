@@ -4,24 +4,24 @@
  * dell'utente, se questo è loggato, sarà possibile inserire le proprie valutazioni
  * @author Leonardo Basso
  */
-import {onMounted, ref} from 'vue'
+import {ref} from 'vue'
 import Pill from '@/components/general/Pill.vue'
 import {fetchBook} from '@/scripts/crud/fetch-book.ts'
 import StarRating from '@/components/books/StarRating.vue'
 import {state} from '@/scripts/state.ts'
-import { useRoute } from 'vue-router';
+import {useRoute} from 'vue-router';
 
 const route = useRoute();
-const imageUrl = ref('');
 const bookData = ref<any>(null);
 const errorMessage = ref<string | null>(null);
+
 async function loadData(id: string) {
   try {
     const book = await fetchBook(id);
     if (book) {
       bookData.value = book;
     } else {
-      errorMessage.value = "Nessun dato ricevuto.";
+      errorMessage.value = "No data.";
     }
   } catch (error) {
     errorMessage.value = error.message || "Failed to load book data.";
@@ -150,7 +150,7 @@ await loadData(route.params.id)
           <h1 class="book_view__preview__title">{{ bookData.title }}</h1>
           <p>{{ bookData.author }}, {{ bookData.year }}</p>
           <Pill :content="bookData.category"/>
-          <p class="description">{{bookData.description}}</p>
+          <p class="description">{{ bookData.description }}</p>
           <p>Costo: {{ bookData.price }}€</p>
         </div>
       </section>
