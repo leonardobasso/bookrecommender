@@ -32,7 +32,17 @@ export async function login(userId: string, password: string) {
     console.log(e)
   }
 }
-
+/**
+ * Wrapper per la registrazione dell'utente
+ * @param userId l'id dell'utente
+ * @param password la password dell'utenet
+ * @param name nome utente
+ * @param surname cognome utente
+ * @param taxcode C.F. utente
+ * @param email email utente
+ * @return I dati dell'utente o un errore
+ * @author Leonardo Basso
+ */
 export async function register(userId, password, name, surname, taxcode, email) {
   const url = "http://localhost:7070/api/user/register"
   const data = {
