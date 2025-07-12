@@ -1,3 +1,9 @@
+/**
+ * Ritorna tutte le libreria dato l'id di un utente
+ *
+ * @param id L'id dell'utente
+ * @author Leonardo Basso
+ */
 export async function fetchLibraries(id: string) {
   try {
     const url = `http://localhost:7070/api/library/user/${id}`

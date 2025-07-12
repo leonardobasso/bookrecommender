@@ -70,7 +70,9 @@ function hideDialog() {
           </div>
         </div>
         <div class="user__view__elements" v-for="library in libraries">
-          <p class="user__view__el collapsed-text">{{ library.title }}</p>
+          <RouterLink :to="`/library/books/${library.id}`">
+            <p class="user__view__el collapsed-text">{{ library.title }}</p>
+          </RouterLink>
         </div>
         <dialog class="user__view__add__library" ref="modal">
           <div class="user__view__add__library__top">
