@@ -1,0 +1,32 @@
+package com.bookrecommender;
+
+import com.bookrecommender.controller.BookController;
+import com.bookrecommender.controller.LibraryController;
+import com.bookrecommender.controller.UserController;
+import io.javalin.Javalin;
+import io.javalin.plugin.bundled.CorsPluginConfig;
+
+public class Main {
+    public static void main(String[] args) {
+        var app = Javalin.create(config -> {
+            config.bundledPlugins.enableCors(cors -> {
+                cors.addRule(CorsPluginConfig.CorsRule::anyHost);
+            });
+        }).start(7070);
+
+        // api/book
+        app.get("/api/book/all", BookController::getAllBooks);
+        app.get("/api/book/search", BookController::searchBook);
+        app.get("/api/book/{id}", BookController::getSingleBook);
+
+        // api/user
+        app.post("/api/user/register", UserController::register);
+        app.post("/api/user/login", UserController::login);
+
+        // api/library
+        app.post("/api/library/create", LibraryController::createLibrary);
+        app.post("/api/library/add/book", LibraryController::addBook);
+        app.get("/api/library/details/{id}", LibraryController::details);
+        app.get("/api/library/user/{id}", LibraryController::getLibrariesByUser);
+    }
+}
