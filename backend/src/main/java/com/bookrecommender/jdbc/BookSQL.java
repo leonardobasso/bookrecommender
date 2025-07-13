@@ -29,7 +29,7 @@ public class BookSQL {
     {
         try (Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
 
-  { PreparedStatement statement = conn.prepareStatement(" INSERT INTO `libriconsigliati` (`UserId`, `LibreriaId`, `LibroId`,  'LibrodeiConsigliId') VALUES (?, ?, ?,?)");
+  { PreparedStatement statement = conn.prepareStatement(" INSERT INTO libriconsigliati (UserId, LibreriaId, LibroId,  LibrodeiConsigliId) VALUES (?, ?, ?,?)");
       pstmt.setInt(1,userId );
       pstmt.setInt(2, libreriaId);
       pstmt.setInt(3, LibroId);

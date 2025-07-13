@@ -16,13 +16,33 @@ import java.util.List;
  */
 public class ReviewSQL
 {
+
+    /**
+     * Esegue una query di inserimento di una nuova review
+     *
+     * @param libroId id del libro consigliato
+     * @param StileVoto voto sullo stile del libro
+     * @param userId id dell'utente
+     * @param ContenutoVoto  voto sul contenuto del libro
+     * @param GradevolezzaVoto voto di quanto sia gradevole il libro
+     * @param OriginalitaVoto voto sull'originalità del libro
+     * @param EdizioneVoto voto sull'edizione del libro
+     * @param VotoFinale voto finale del libro
+     * @param StileCommento commento riguardante lo stile del libro
+     * @param ContenutoCommento  commmento riguardante il contenuto del libro
+     * @param GradevolezzaCommento  commmento riguardante la gradevolezza del libro
+     * @param OriginalitaCommento  commmento riguardante l'originalità del libro
+     * @param EdizioneCommento   commmento riguardante l'edizione del libro
+     * @author Lorenzo Beretta
+     */
+
 public static insertReview(int UserId, int LibroId, int StileVoto, int ContenutoVoto, int GradevolezzaVoto, int OriginalitaVoto, int EdizioneVoto, int VotoFinale, String StileCommento, String ContenutoCommento, String GradevolezzaCommento, String OriginalitaCommento, String EdizioneCommento)
 {
 
 
     try (Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
 
-    { PreparedStatement statement = conn.prepareStatement("INSERT INTO `recensione` (`UserId`, `LibroId`, `StileVoto`, `ContenutoVoto`, `GradevolezzaVoto`, `OriginalitaVoto`, `EdizioneVoto`, `VotoFinale`, `StileCommento`, `ContenutoCommento`, `GradevolezzaCommento`, `OriginalitaCommento`, `EdizioneCommento`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    { PreparedStatement statement = conn.prepareStatement("INSERT INTO recensione (UserId, LibroId, StileVoto, ContenutoVoto, GradevolezzaVoto, OriginalitaVoto, EdizioneVoto, VotoFinale, StileCommento, ContenutoCommento, GradevolezzaCommento, OriginalitaCommento, EdizioneCommento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         pstmt.setInt(1,userId );
         pstmt.setInt(2, LibroId);
         pstmt.setInt(3, StileVoto);
@@ -49,6 +69,13 @@ public static insertReview(int UserId, int LibroId, int StileVoto, int Contenuto
 
 
 }
+
+   /**
+    * esegue una query per riportare tutte le recensioni di un determinato libro
+    * @param LibroId id del libro di cui si vogliono le recensioni
+    * @author Lorenzo Beretta
+    *
+    */
 
 public static getReviewByBook(int LibroId)
 {

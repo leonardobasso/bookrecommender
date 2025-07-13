@@ -16,7 +16,15 @@ import java.util.List;
  * @see com.bookrecommender.controller.BookController
  */
 public class LibrarySQL {
-    public static List<Libreria> getLibrariesByUser(String id) {
+    /**
+     * esegue una query per riportare tutte le librerie di un determinato utente
+     * @param userId id dell'utente di cui si vogliono cercare le librerie
+     * @author Lorenzo Beretta
+     *
+     */
+
+
+    public static List<Libreria> getLibrariesByUser(String userid) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
                 PreparedStatement statement = conn.prepareStatement("SELECT * FROM Libreria WHERE UserId = ?");
@@ -38,6 +46,15 @@ public class LibrarySQL {
         }
     }
 
+
+    /**
+     * esegue una query che crea una nuova libreria
+     * @param userId id dell'utente che crea la libreria
+     * @param name nome della libreria
+     * @author Lorenzo Beretta
+     *
+     */
+
     public static void createLibrary(String name, String userId) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
@@ -52,6 +69,14 @@ public class LibrarySQL {
         }
     }
 
+    /**
+     * esegue una query per aggiungere un libro alla libreria
+     * @param LibreriaId id della libreria a cui si vuol aggiungere un libro
+     * @param libroId id del libro da inserire nella libreria
+     * @author Lorenzo Beretta
+     *
+     */
+
     public static void addBook(int libreriaId, int libroId) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
@@ -64,6 +89,13 @@ public class LibrarySQL {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * esegue una query per riportare tutti i libri di una determinata libreria
+     * @param LibreriaId id della libreria di cui si vuol vedere i libri legati
+     * @author Lorenzo Beretta
+     *
+     */
 
     public static List<Book> details(int idLibreria) {
         try (

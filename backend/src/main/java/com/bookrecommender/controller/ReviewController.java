@@ -16,7 +16,12 @@ import java.util.Map;
  * @see com.bookrecommender.jdbc.BookSQL
  */
 public class BookController {
-
+    /**
+     * Ritorna i dati di tutti i libri salvati sul database in formato json
+     *
+     * @param ctx context
+     * @author Lorenzo beretta
+     */
     public static void insertReview(Context ctx) {
         try
         insertReview();
@@ -32,7 +37,12 @@ public class BookController {
 
         }
     }
-
+    /**
+     * Ritorna i dati di tutte le review di un determinato  salvati sul database in formato json
+     *
+     * @param ctx context
+     * @author Lorenzo beretta
+     */
     public static void getReviewByBook(Context ctx)
     {
         try
