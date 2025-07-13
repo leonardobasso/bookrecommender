@@ -33,7 +33,7 @@ public class Main {
         // api/book/suggestion
         app.post("/api/book/suggestion/create", BookController::insertSuggestion);
         app.get("/api/book/suggestion/get/all/{id}", BookController::getLibriConsigliatiLibri);
-        app.get("/api/book/suggestion/get/user", BookController::getLibriConsigliatiUtenteLibri);
+        app.post("/api/book/suggestion/get/user", BookController::getLibriConsigliatiUtenteLibri);
 
         // api/user
         app.post("/api/user/register", UserController::register);

@@ -27,10 +27,6 @@ async function handleSearch() {
 <template>
   <main class="homepage">
     <p v-if="state.user.isLogged">Ciao {{ state.user.userId }}</p>
-    <button style="margin-right: 1rem" @click="state.user.setLogin('myUserID')" class="btn--green">
-      Fake log in
-    </button>
-    <button @click="state.user.setLogOut()" class="btn--red">Fake log out</button>
     <br> <br>
     <br>
     <label for="" class="homepage__search">

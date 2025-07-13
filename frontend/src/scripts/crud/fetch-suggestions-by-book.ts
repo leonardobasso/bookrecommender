@@ -8,7 +8,6 @@ import * as url from "node:url";
  */
 export async function fetchSuggestionsByBook(id: string) {
   const url = `http://localhost:7070/api/book/suggestion/get/all/${id}`
-  console.log(id)
   try {
     const resp: Response = await fetch(url)
     const data = await resp.json()

@@ -106,7 +106,7 @@ public class BookSQL {
         List<Book> books = new LinkedList<>();
         try {
             Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM libro INNER JOIN ConsigliLibri as lc ON libro.id=lc.LibroConsigliatoId where lc.LibroDeiConsigliId=?");
+            PreparedStatement statement = conn.prepareStatement("SELECT DISTINCT libro.* FROM libro INNER JOIN ConsigliLibri as lc ON libro.id=lc.LibroConsigliatoId where lc.LibroDeiConsigliId=?");
             statement.setInt(1, LibroId);
             ResultSet rs = statement.executeQuery();
 
@@ -213,12 +213,12 @@ public class BookSQL {
         List<Object> params = new LinkedList<>();
 
         if (name != null && !name.isEmpty()) {
-            sb.append(" AND Nome LIKE ?");
-            params.add("%" + name + "%");
+            sb.append(" AND LOWER(Nome) LIKE ?");
+            params.add("%" + name.toLowerCase() + "%");
         }
         if (author != null && !author.isEmpty()) {
-            sb.append(" AND Autore LIKE ?");
-            params.add("%" + author + "%");
+            sb.append(" AND LOWER(Autore) LIKE ?");
+            params.add("%" + author.toLowerCase() + "%");
         }
         if (year != null) {
             sb.append(" AND AnnoPub = ?");

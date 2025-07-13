@@ -14,6 +14,7 @@ import {fetchLibraries} from "@/scripts/crud/fetch-libraries.ts";
 import {addBookInLibrary} from "@/scripts/crud/add-book-in-library.ts";
 import {createSuggestion} from "@/scripts/crud/create-suggestion.ts";
 import {fetchSuggestionsByBook} from "@/scripts/crud/fetch-suggestions-by-book.ts";
+import {fetchSuggestionsByUser} from "@/scripts/crud/fetch-suggestions-by-user.ts";
 
 const route = useRoute();
 const router = useRouter()
@@ -23,11 +24,14 @@ const libraries = ref<Array<any>>([]);
 const libraryDialog = ref<HTMLDialogElement | null>(null)
 const valutationDialog = ref<HTMLDialogElement | null>(null)
 const adviceDialog = ref<HTMLDialogElement | null>(null)
-
 const suggestedBooks = ref<Array>('')
-suggestedBooks.value = await fetchSuggestionsByBook(route.params.id)
-libraries.value = await fetchLibraries(state.user.userId)
+const mySuggestedBooks = ref<Array>('')
+
 await loadData(route.params.id)
+suggestedBooks.value = await fetchSuggestionsByBook(route.params.id)
+mySuggestedBooks.value = await fetchSuggestionsByUser(state.user.userId, route.params.id)
+console.log("My suggestions ", mySuggestedBooks.value)
+libraries.value = await fetchLibraries(state.user.userId)
 
 
 await fetchLibraries(state.user.userId)
@@ -86,6 +90,7 @@ const showButtons = computed(() => {
 async function handleAddSuggestion(racomendedId: string) {
   try {
     await createSuggestion(state.user.userId, racomendedId, route.params.id)
+    suggestedBooks.value = await fetchSuggestionsByBook(route.params.id)
   } catch (e) {
     console.log("ERRORE AH IO ESISTO")
     errorMessage.value = e
@@ -265,13 +270,10 @@ async function handleAddSuggestion(racomendedId: string) {
           v-for="book in suggestedBooks"
           :key="book.id"
           :to="`/books/book/${book.id}`"
-          class="suggestion-link"
         >
           <Pill :content="book.title"/>
         </RouterLink>
       </section>
-
-
     </div>
   </article>
 </template>

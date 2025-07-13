@@ -41,6 +41,7 @@ export const state = reactive({
       this.email = ''
       this.taxcode = ''
       this.isLogged = false
+      this.libraryBooks = []
     },
   },
   libraryBooks: [] as { id: string, title: string }[],
