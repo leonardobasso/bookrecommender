@@ -7,7 +7,7 @@
 <details>
 <summary>Debian/Ubuntu</summary>
 
-```shell
+```sh
 sudo apt update
 sudo apt install libwebkit2gtk-4.0-dev \
     build-essential \
@@ -23,7 +23,7 @@ sudo apt install libwebkit2gtk-4.0-dev \
 <details>
 <summary>Arch</summary>
 
-```shell
+```sh
 sudo pacman -Syu
 sudo pacman -S --needed \
     webkit2gtk \
@@ -42,7 +42,7 @@ sudo pacman -S --needed \
 <details>
 <summary>Fedora</summary>
 
-```shell
+```sh
 sudo dnf check-update
 sudo dnf install webkit2gtk4.0-devel \
     openssl-devel \
@@ -57,7 +57,7 @@ sudo dnf group install "C Development Tools and Libraries"
 <details> 
 <summary>OpenSuse</summary>
 
-```shell
+```sh
 sudo zypper up
 sudo zypper in webkit2gtk3-soup2-devel \
     libopenssl-devel \
@@ -72,7 +72,7 @@ sudo zypper in -t pattern devel_basis
 
 È possibile installare Rust con
 
-```shell
+```sh
 curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 ```
 
@@ -81,80 +81,26 @@ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 È necessario installare i [Build Tools di C++](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 e le webview2 di rust con
 
-```shell
+```sh
 winget install --id Rustlang.Rustup
 rustup default stable-msvc
 ```
 
 Per far funzionare la prima volta il programma usare
 
-```shell
+```sh
 cd frontend
 npm install
 
 ```
 ### Primo avvio
->[!Important]
+> [!important]
 > È necessario avere [Node](https://nodejs.org/en) installato sul proprio computer.
 
 Per far partire il programma usare 
 
-```shell
+```sh
 npx tauri dev
 ```
 
 Il programma è in Developer Mode
-
-# Backend & DB
-
-## Primo avvio
-> [!important]
-> È necessario avere [Docker](https://docs.docker.com/engine/install/) installato sul proprio computer.
-
-Su Linux (SystemD) è necessario avviare Docker con:
-```shell
-sudo systemctl start docker
-```
-
-Prima di utilizzare Docker è necessario generare il jar andando nella cartella di backend ed eseguendo: (si può
-fare anche graficamente da un IDE)
-```shell
- mvn clean package
- ```
-
-Su Windows tutti i comandi citati vanno eseguiti da amministratore
-
-Per avviare il progetto usare nel terminale:
-
-**Linux:**
-```shell
-sudo docker compose up --build
-```
-**Windows (Powershell)**
-```shell
-docker-compose up --build
-```
-
-Se vengono apportati cambiamenti al progetto non rilevati da docker, usare:
-
-**Linux:**
-```shell
-sudo docker system prune -a
-sudo docker compose up --build
-```
-**Windows (Powershell)**
-```shell
-docker system prune -a
-docker-compose up --build
-```
-
-Per interrompere Docker è necessario scrivere:
-
-**Linux**
-```shell
-sudo docker compose down
-```
-**Windows (Powershell)**
-```shell
-docker-compose down
-```
