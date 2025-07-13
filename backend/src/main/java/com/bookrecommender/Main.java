@@ -2,6 +2,7 @@ package com.bookrecommender;
 
 import com.bookrecommender.controller.BookController;
 import com.bookrecommender.controller.LibraryController;
+import com.bookrecommender.controller.ReviewController;
 import com.bookrecommender.controller.UserController;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
@@ -47,5 +48,7 @@ public class Main {
         app.get("/api/library/books-user/{id}", LibraryController::getAllBooksByUser);
 
         // api/review
+        app.get("/api/review/book/{id}", ReviewController::getReviewByBook);
+        app.post("/api/review/create", ReviewController::insertReview);
     }
 }

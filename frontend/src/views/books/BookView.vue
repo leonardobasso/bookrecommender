@@ -30,9 +30,7 @@ const mySuggestedBooks = ref<Array>('')
 await loadData(route.params.id)
 suggestedBooks.value = await fetchSuggestionsByBook(route.params.id)
 mySuggestedBooks.value = await fetchSuggestionsByUser(state.user.userId, route.params.id)
-console.log("My suggestions ", mySuggestedBooks.value)
 libraries.value = await fetchLibraries(state.user.userId)
-
 
 await fetchLibraries(state.user.userId)
 
@@ -265,9 +263,20 @@ async function handleAddSuggestion(racomendedId: string) {
       </dialog>
 
       <h2 class="book_view__subtitles">Gli utenti hanno consigliato:</h2>
+      <p v-if="suggestedBooks.length == 0">Nessun libro consigliato...</p>
       <section class="book_view__suggestions">
         <RouterLink
           v-for="book in suggestedBooks"
+          :key="book.id"
+          :to="`/books/book/${book.id}`"
+        >
+          <Pill :content="book.title"/>
+        </RouterLink>
+      </section>
+      <h2 class="book_view__subtitles" v-if="state.user.isLogged">I miei libri consigliati: </h2>
+      <section v-if="state.user.isLogged" class="book_view__suggestions">
+        <RouterLink
+          v-for="book in mySuggestedBooks"
           :key="book.id"
           :to="`/books/book/${book.id}`"
         >

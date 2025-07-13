@@ -5,7 +5,7 @@ package com.bookrecommender.model;
  */
 public class Review {
     private String userId;
-    private String libroId;
+    private int libroId;
     private int stileVoto;
     private int contenutoVoto;
     private int gradevolezzaVoto;
@@ -16,7 +16,8 @@ public class Review {
     private String gradevolezzaCommento;
     private String originalitaCommento;
     private String edizioneCommento;
-    private float votoFinale;
+    private int votoFinale;
+    private String commentoFinale;
 
     /**
      * Model della review
@@ -35,10 +36,10 @@ public class Review {
      * @param votoFinale Voto finale (1..5) derivato dalla media dei voti
      * @author Leonardo Basso
      */
-    public Review(String userId, String libroId, int stileVoto, int contenutoVoto,
+    public Review(String userId, int libroId, int stileVoto, int contenutoVoto,
                   int gradevolezzaVoto, int originalitaVoto, int edizioneVoto, String stileCommento,
                   String contenutoCommento, String gradevolezzaCommento, String originalitaCommento,
-                  String edizioneCommento, float votoFinale) {
+                  String edizioneCommento, int votoFinale, String commentoFinale) {
         this.userId = userId;
         this.libroId = libroId;
         this.stileVoto = stileVoto;
@@ -46,10 +47,68 @@ public class Review {
         this.gradevolezzaVoto = gradevolezzaVoto;
         this.originalitaVoto = originalitaVoto;
         this.edizioneVoto = edizioneVoto;
+        this.stileCommento = stileCommento;
         this.contenutoCommento = contenutoCommento;
         this.gradevolezzaCommento = gradevolezzaCommento;
         this.originalitaCommento = originalitaCommento;
         this.edizioneCommento = edizioneCommento;
         this.votoFinale = votoFinale;
+        this.commentoFinale = commentoFinale;
+    }
+
+    public String getCommentoFinale() {
+        return commentoFinale;
+    }
+
+    public int getVotoFinale() {
+        return votoFinale;
+    }
+
+    public String getEdizioneCommento() {
+        return edizioneCommento;
+    }
+
+    public String getOriginalitaCommento() {
+        return originalitaCommento;
+    }
+
+    public String getGradevolezzaCommento() {
+        return gradevolezzaCommento;
+    }
+
+    public String getContenutoCommento() {
+        return contenutoCommento;
+    }
+
+    public int getEdizioneVoto() {
+        return edizioneVoto;
+    }
+
+    public int getOriginalitaVoto() {
+        return originalitaVoto;
+    }
+
+    public int getGradevolezzaVoto() {
+        return gradevolezzaVoto;
+    }
+
+    public int getContenutoVoto() {
+        return contenutoVoto;
+    }
+
+    public int getStileVoto() {
+        return stileVoto;
+    }
+
+    public int getLibroId() {
+        return libroId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getStileCommento() {
+        return stileCommento;
     }
 }

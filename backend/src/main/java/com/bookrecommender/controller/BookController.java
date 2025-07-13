@@ -39,7 +39,7 @@ public class BookController {
     public static void getLibriConsigliatiUtenteLibri(Context ctx) {
         try {
             LibriConsigliati suggestion = ctx.bodyAsClass(LibriConsigliati.class);
-            int libroId = suggestion.getLibroConsigliatoId();
+            int libroId = suggestion.getLibroDeiConsigliId();
             String userId = suggestion.getUserId();
 
             List<Book> books = BookSQL.getLibriConsigliatiUtenteLibri(userId, libroId);
@@ -49,7 +49,7 @@ public class BookController {
                     "body", books
             ));
         } catch (Exception e) {
-            ctx.status(200).json(Map.of(
+            ctx.status(500).json(Map.of(
                     "status", "error",
                     "body", e.getMessage()
             ));

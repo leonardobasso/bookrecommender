@@ -47,17 +47,18 @@ CREATE TABLE Recensione
 (
     UserId               VARCHAR(255) REFERENCES utente (UserId),
     LibroId              INT REFERENCES libro (id),
-    StileVoto            SMALLINT CHECK (StileVoto BETWEEN 1 AND 5),
-    ContenutoVoto        SMALLINT CHECK (ContenutoVoto BETWEEN 1 AND 5),
-    GradevolezzaVoto     SMALLINT CHECK (GradevolezzaVoto BETWEEN 1 AND 5),
-    OriginalitaVoto      SMALLINT CHECK (OriginalitaVoto BETWEEN 1 AND 5),
-    EdizioneVoto         SMALLINT CHECK (EdizioneVoto BETWEEN 1 AND 5),
-    VotoFinale           FLOAT CHECK (VotoFinale BETWEEN 1 AND 5),
+    StileVoto            SMALLINT CHECK (StileVoto BETWEEN 1 AND 5) NOT NULL,
+    ContenutoVoto        SMALLINT CHECK (ContenutoVoto BETWEEN 1 AND 5) NOT NULL,
+    GradevolezzaVoto     SMALLINT CHECK (GradevolezzaVoto BETWEEN 1 AND 5) NOT NULL,
+    OriginalitaVoto      SMALLINT CHECK (OriginalitaVoto BETWEEN 1 AND 5) NOT NULL,
+    EdizioneVoto         SMALLINT CHECK (EdizioneVoto BETWEEN 1 AND 5) NOT NULL,
+    VotoFinale           FLOAT CHECK (VotoFinale BETWEEN 1 AND 5) NOT NULL,
     StileCommento        VARCHAR(255),
     ContenutoCommento    VARCHAR(255),
     GradevolezzaCommento VARCHAR(255),
     OriginalitaCommento  VARCHAR(255),
     EdizioneCommento     VARCHAR(255),
+    CommentoFinale       VARCHAR(255),
     PRIMARY KEY (UserId, LibroId)
 );
 
