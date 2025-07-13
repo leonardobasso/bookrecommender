@@ -10,7 +10,6 @@ const searchYear = ref('')
 const books = ref<Array<any>>([]);
 
 books.value = await fetchBooks()
-console.log(books.value)
 
 /**
  * Modifica dinamicamente i dati mostrati data una ricerca
@@ -63,6 +62,7 @@ async function handleSearch() {
         </article>
       </div>
     </section>
+
   </main>
 </template>
 

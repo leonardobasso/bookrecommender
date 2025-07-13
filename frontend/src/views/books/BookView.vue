@@ -9,18 +9,28 @@ import Pill from '@/components/general/Pill.vue'
 import {fetchBook} from '@/scripts/crud/fetch-book.ts'
 import StarRating from '@/components/books/StarRating.vue'
 import {state} from '@/scripts/state.ts'
-import {useRoute, useRouter} from 'vue-router';
+import {useRoute, useRouter, RouterLink} from 'vue-router';
 import {fetchLibraries} from "@/scripts/crud/fetch-libraries.ts";
 import {addBookInLibrary} from "@/scripts/crud/add-book-in-library.ts";
 import {createSuggestion} from "@/scripts/crud/create-suggestion.ts";
+import {fetchSuggestionsByBook} from "@/scripts/crud/fetch-suggestions-by-book.ts";
 
 const route = useRoute();
 const router = useRouter()
 const bookData = ref<any>(null);
 const errorMessage = ref<string | null>(null);
 const libraries = ref<Array<any>>([]);
-await fetchLibraries(state.user.userId)
+const libraryDialog = ref<HTMLDialogElement | null>(null)
+const valutationDialog = ref<HTMLDialogElement | null>(null)
+const adviceDialog = ref<HTMLDialogElement | null>(null)
+
+const suggestedBooks = ref<Array>('')
+suggestedBooks.value = await fetchSuggestionsByBook(route.params.id)
 libraries.value = await fetchLibraries(state.user.userId)
+await loadData(route.params.id)
+
+
+await fetchLibraries(state.user.userId)
 
 /**
  * Ritorna i valori dei libri
@@ -44,10 +54,6 @@ async function handleAddToLibrary(libId: string, title: string) {
   router.push(`/library/books/${libId}`)
 }
 
-const libraryDialog = ref<HTMLDialogElement | null>(null)
-const valutationDialog = ref<HTMLDialogElement | null>(null)
-const adviceDialog = ref<HTMLDialogElement | null>(null)
-
 /**
  * Questa funzione prende in input una reference a un dialog e lo mostra
  * @param modal - Il dialog da mostrare
@@ -70,8 +76,6 @@ function hideDialog(modal: typeof libraryDialog.value) {
   }
 }
 
-await loadData(route.params.id)
-
 /**
  * Controlla che il libro sia in libraryBooks, raccolta di tutti i libri salvati in librerie da un utente
  */
@@ -80,12 +84,14 @@ const showButtons = computed(() => {
 })
 
 async function handleAddSuggestion(racomendedId: string) {
-  try{
+  try {
     await createSuggestion(state.user.userId, racomendedId, route.params.id)
   } catch (e) {
     console.log("ERRORE AH IO ESISTO")
     errorMessage.value = e
     throw new Error(e)
+  } finally {
+    hideDialog(adviceDialog)
   }
 }
 </script>
@@ -139,10 +145,8 @@ async function handleAddSuggestion(racomendedId: string) {
           </div>
         </section>
       </dialog>
-      <div v-if="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
-      <section v-else class="book_view__preview">
+      <div v-if="errorMessage" style="color: #d9534f;"> {{ errorMessage }}</div>
+      <section class="book_view__preview" v-if="bookData">
         <img :src="bookData.image" alt="" class="book_view__cover"/>
         <div class="book_view__preview__data">
           <StarRating :rating="4" :readonly="true"/>
@@ -207,8 +211,6 @@ async function handleAddSuggestion(racomendedId: string) {
           <span class="modal-top__close-btn btn--os" @click="hideDialog(adviceDialog)"></span>
         </div>
 
-        <div v-if="errorMessage" style="color: #d9534f; z-index: 999">{{ errorMessage }}</div>
-
         <section class="book__view__advice__book" v-for="book in state.libraryBooks" :key="book.id">
           <p>{{ book.title }}</p>
           <span @click="handleAddSuggestion(book.id)">
@@ -258,6 +260,18 @@ async function handleAddSuggestion(racomendedId: string) {
       </dialog>
 
       <h2 class="book_view__subtitles">Gli utenti hanno consigliato:</h2>
+      <section class="book_view__suggestions">
+        <RouterLink
+          v-for="book in suggestedBooks"
+          :key="book.id"
+          :to="`/books/book/${book.id}`"
+          class="suggestion-link"
+        >
+          <Pill :content="book.title"/>
+        </RouterLink>
+      </section>
+
+
     </div>
   </article>
 </template>
@@ -378,6 +392,10 @@ async function handleAddSuggestion(racomendedId: string) {
 
     svg
       cursor: pointer
+
+  .book_view__suggestions
+    *
+      margin-left: .1rem
 
 .modal-top
   display: flex

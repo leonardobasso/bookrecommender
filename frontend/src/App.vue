@@ -16,7 +16,7 @@ import TitleBar from '@/components/window/TitleBar.vue'
       </nav>
       <Suspense>
         <template #default>
-          <RouterView/>
+          <RouterView :key="$route.fullPath" />
         </template>
         <template #fallback>
           <div style="color: red">Caricamento in corso...</div>
