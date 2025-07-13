@@ -10,16 +10,137 @@ import java.util.List;
 /**
  * Tutte le operazioni di SQL/JDBC per le operazioni sui libri
  *
- * @author Leonardo Basso
+ * @author Lorenzo Beretta
  * @see com.bookrecommender.model.Book
  * @see com.bookrecommender.controller.BookController
  */
 public class BookSQL {
     /**
+     * Esegue una query di inserimento di un libro nei libri consigliati dati libroId, libreriaId e
+     *
+     * @param suggestedId   id del libro
+     * @param initialBookId id del libro che vede suggestedId come libro consigliato
+     * @param libreriaId    id della libreria
+     * @param userId        Id dell'utente
+     * @author Lorenzo Beretta, Leonardo Basso
+     */
+    public static String insertLibriConsigliati(int suggestedId, int initialBookId, int libreriaId, String userId) {
+        List<Book> existingSuggestions = BookSQL.getLibriConsigliatiUtenteLibri(userId, initialBookId);
+        if (existingSuggestions.size() > 3) {
+            return "Già inseriti 3 libri";
+        }
+        boolean check = false;
+        List<Book> booksInLibrary = LibrarySQL.getBooksByUser(userId);
+        for (Book book : booksInLibrary) {
+            if (Integer.parseInt(book.getId()) == initialBookId) {
+                check = true;
+                break;
+            }
+        }
+        if (!check) return "Libro non presente nella libreria";
+
+        try (Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
+             PreparedStatement statement = conn.prepareStatement(" INSERT INTO `Libriconsigliati` (`UserId`, `LibreriaId`, `LibroConsigliatoId`, `LibroDeiConsigliId`) VALUES (?, ?, ?, ?)");
+        ) {
+            statement.setString(1, userId);
+            statement.setInt(2, libreriaId);
+            statement.setInt(3, suggestedId);
+            statement.setInt(4, initialBookId);
+
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("A new row was inserted successfully!");
+            }
+            return suggestedId + "";
+        } catch (SQLException e) {
+            throw new RuntimeException("Error accessing the database at method insertLibriConsigliati(). ", e);
+        }
+    }
+
+    /**
+     * Esegue la query sql per ritornare tutti i libri consigliati da un utente per un determinato libro
+     *
+     * @param UserId  id utente
+     * @param LibroId id libro
+     * @return Una lista con tutti i libri cercati al suo interno
+     * @author Lorenzo Beretta
+     */
+    public static List<Book> getLibriConsigliatiUtenteLibri(String UserId, int LibroId) {
+        List<Book> books = new LinkedList<>();
+        try {
+            Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM libro INNER JOIN libriconsigliati as lc ON libro.id=lc.LibroConsigliatoId where lc.UserId=? and lc.LibroDeiConsigliId=?");
+            statement.setString(1, UserId);
+            statement.setInt(2, LibroId);
+            ResultSet rs = statement.executeQuery();
+
+
+            System.out.println("Getting all the Libri consigliati");
+            while (rs.next()) {
+                books.add(new Book(
+                        rs.getString("id"),
+                        rs.getString("Nome"),
+                        rs.getString("Autore"),
+                        rs.getString("Descrizione"),
+                        rs.getString("Categoria"),
+                        rs.getString("Publisher"),
+                        rs.getFloat("Prezzo"),
+                        rs.getString("MesePub"),
+                        rs.getInt("AnnoPub")
+                ));
+
+            }
+            return books;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error accessing the database at method getLibriConsigliatiUtenteLibri(). ", e);
+        }
+
+    }
+
+    /**
+     * Esegue la query sql per ritornare tutti i libri che sono stati selezionati come consigliati di un determinato libro
+     *
+     * @param LibroId id libro
+     * @return Una lista con tutti i libri cercati al suo interno
+     * @author Lorenzo Beretta
+     */
+    public static List<Book> getLibriConsigliatiLibri(int LibroId) {
+        List<Book> books = new LinkedList<>();
+        try {
+            Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM libro INNER JOIN libriconsigliati as lc ON libro.id=lc.LibroConsigliatoId where lc.LibroDeiConsigliId=?");
+            statement.setInt(1, LibroId);
+            ResultSet rs = statement.executeQuery();
+
+
+            System.out.println("Getting all the Libri consigliati");
+            while (rs.next()) {
+                books.add(new Book(
+                        rs.getString("id"),
+                        rs.getString("Nome"),
+                        rs.getString("Autore"),
+                        rs.getString("Descrizione"),
+                        rs.getString("Categoria"),
+                        rs.getString("Publisher"),
+                        rs.getFloat("Prezzo"),
+                        rs.getString("MesePub"),
+                        rs.getInt("AnnoPub")
+                ));
+
+            }
+            return books;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error accessing the database at method getLibriConsigliatiLibri(). ", e);
+        }
+
+
+    }
+
+    /**
      * Esegue la query sql per ritornare una lista di tutti i libri
      *
      * @return Una lista con tutti i libri al suo interno
-     * @author Leonardo Basso
+     * @author Lorenzo Beretta
      */
     public static List<Book> getAllBooks() {
         List<Book> books = new LinkedList<>();
@@ -48,6 +169,13 @@ public class BookSQL {
         }
     }
 
+    /**
+     * Esegue la query sql per ritornare un libro specifico
+     *
+     * @param id id del libro da cercare
+     * @return
+     * @author Lorenzo Beretta
+     */
     public static Book getSingleBook(int id) {
         try {
             Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
@@ -78,7 +206,7 @@ public class BookSQL {
      * @param author Autore del libro
      * @param year   Anno di pubblicazione del libro
      * @return Una lista con i libri ottenuti dalla ricerca
-     * @author Leonardo Basso
+     * @author Lorenzo Beretta
      */
     public static List<Book> searchBook(String name, String author, Integer year) {
         List<Book> books = new LinkedList<>();
@@ -135,5 +263,6 @@ public class BookSQL {
 
         return books;
     }
+
 
 }

@@ -1,3 +1,5 @@
+import {fetchAllLibraryBooks} from "@/scripts/crud/fetch-all-library-books.ts";
+
 /**
  * Wrapper per il login dell'utente
  * @param userId l'id dell'utente
@@ -27,6 +29,7 @@ export async function login(userId: string, password: string) {
     if (result.status !== "success") {
       throw new Error(result.body)
     }
+    await fetchAllLibraryBooks(userId)
     return result.body
   } catch (e) {
     console.log(e)

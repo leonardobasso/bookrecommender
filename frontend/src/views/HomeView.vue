@@ -10,13 +10,13 @@ const searchYear = ref('')
 const books = ref<Array<any>>([]);
 
 books.value = await fetchBooks()
+console.log(books.value)
 
 /**
  * Modifica dinamicamente i dati mostrati data una ricerca
  * @author Leonardo Basso
  */
 async function handleSearch() {
-
   try {
     books.value = await searchBooks(searchTitle.value, searchAuthor.value, searchYear.value)
   } catch (error) {
@@ -57,9 +57,9 @@ async function handleSearch() {
           <RouterLink :to="`/books/book/${book.id}`" :id="book.id">
             <p class="collapsed-text">{{ book.title }}</p>
           </RouterLink>
-          <p class="collapsed-text">{{ book.author }}</p>
+          <p class="collapsed-text">{{book.author}}</p>
           <p class="collapsed-text">{{ book.year }}</p>
-          <p class="collapsed-text"> {{ book.category }}</p>
+          <p class="collapsed-text">{{book.category}}</p>
         </article>
       </div>
     </section>

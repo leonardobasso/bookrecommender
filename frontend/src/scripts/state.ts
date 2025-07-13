@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import {reactive} from 'vue'
 
 /**
  * Implementazione del sistema di stato globale
@@ -42,5 +42,12 @@ export const state = reactive({
       this.taxcode = ''
       this.isLogged = false
     },
+  },
+  libraryBooks: [] as { id: string, title: string }[],
+  clearLibrary() {
+    this.libraryBooks = []
+  },
+  addLibraryBook(id: string, title: string): void {
+    this.libraryBooks.push({id, title});
   },
 })

@@ -90,4 +90,20 @@ public class LibraryController {
             throw new RuntimeException(e);
         }
     }
+    public static void getAllBooksByUser(Context ctx) {
+        try {
+            String userId = ctx.pathParam("id");
+            List<Book> books = LibrarySQL.getBooksByUser(userId);
+            ctx.status(200).json(Map.of(
+                    "status", "success",
+                    "body", books
+            ));
+        } catch (Exception e) {
+            ctx.status(500).json(Map.of(
+                    "status", "error",
+                    "body", e.getMessage()
+            ));
+            throw new RuntimeException(e);
+        }
+    }
 }

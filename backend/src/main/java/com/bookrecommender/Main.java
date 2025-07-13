@@ -30,6 +30,11 @@ public class Main {
         app.get("/api/book/search", BookController::searchBook);
         app.get("/api/book/{id}", BookController::getSingleBook);
 
+        // api/book/suggestion
+        app.post("/api/book/suggestion/post", BookController::insertSuggestion);
+        app.get("/api/book/suggestion/get/all/{id}", BookController::getLibriConsigliatiLibri);
+        app.get("/api/book/suggestion/get/user", BookController::getLibriConsigliatiUtenteLibri);
+
         // api/user
         app.post("/api/user/register", UserController::register);
         app.post("/api/user/login", UserController::login);
@@ -39,5 +44,8 @@ public class Main {
         app.post("/api/library/add/book", LibraryController::addBook);
         app.get("/api/library/details/{id}", LibraryController::details);
         app.get("/api/library/user/{id}", LibraryController::getLibrariesByUser);
+        app.get("/api/library/books-user/{id}", LibraryController::getAllBooksByUser);
+
+        // api/review
     }
 }

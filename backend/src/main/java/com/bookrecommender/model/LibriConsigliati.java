@@ -5,9 +5,9 @@ package com.bookrecommender.model;
  */
 public class LibriConsigliati {
     private String userId;
-    private String libreriaId;
-    private String libroConsigliatoId;
-    private String libroDeiConsigliId;
+    private int libreriaId;
+    private int libroConsigliatoId;
+    private int libroDeiConsigliId;
 
     /**
      * Model dei libri consigliati
@@ -17,10 +17,26 @@ public class LibriConsigliati {
      * @param libroDeiConsigliId L'id del libro che vede consigliare 3 libri
      * @author Leonardo Basso
      */
-    public LibriConsigliati(String userId, String libreriaId, String libroConsigliatoId, String libroDeiConsigliId) {
+    public LibriConsigliati(String userId, int libreriaId, int libroConsigliatoId, int libroDeiConsigliId) {
         this.userId = userId;
         this.libreriaId = libreriaId;
         this.libroConsigliatoId = libroConsigliatoId;
         this.libroDeiConsigliId = libroDeiConsigliId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public int getLibreriaId() {
+        return libreriaId;
+    }
+
+    public int getLibroConsigliatoId() {
+        return libroConsigliatoId;
+    }
+
+    public int getLibroDeiConsigliId() {
+        return libroDeiConsigliId;
     }
 }

@@ -4,7 +4,7 @@
  * dell'utente, se questo è loggato, sarà possibile inserire le proprie valutazioni
  * @author Leonardo Basso
  */
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 import Pill from '@/components/general/Pill.vue'
 import {fetchBook} from '@/scripts/crud/fetch-book.ts'
 import StarRating from '@/components/books/StarRating.vue'
@@ -20,22 +20,25 @@ const errorMessage = ref<string | null>(null);
 const libraries = ref<Array<any>>([]);
 libraries.value = await fetchLibraries(state.user.userId)
 
+/**
+ * Ritorna i valori dei libri
+ * @param id
+ */
 async function loadData(id: string) {
   try {
-    const book = await fetchBook(id);
+    const book = await fetchBook(id)
     if (book) {
-      bookData.value = book;
+      bookData.value = book
     } else {
-      errorMessage.value = "No data.";
+      errorMessage.value = "No data."
     }
   } catch (error) {
-    errorMessage.value = error.message || "Failed to load book data.";
-    console.error("Failed to load book data:", error);
+    errorMessage.value = error.message
   }
 }
 
-async function handleAddToLibrary(libId: string) {
-  await addBookInLibrary(route.params.id, libId)
+async function handleAddToLibrary(libId: string, title: string) {
+  await addBookInLibrary(route.params.id, title, libId)
   router.push(`/library/books/${libId}`)
 }
 
@@ -65,6 +68,14 @@ function hideDialog(modal: typeof libraryDialog.value) {
 }
 
 await loadData(route.params.id)
+
+/**
+ * Controlla che il libro sia in libraryBooks, raccolta di tutti i libri salvati in librerie da un utente
+ */
+const showButtons = computed(() => {
+  return state.libraryBooks.some(book => book.id === route.params.id)})
+console.log("📚 state.libraryBooks", state.libraryBooks)
+console.log("🔍 route.params.id", route.params.id)
 
 </script>
 
@@ -98,7 +109,7 @@ await loadData(route.params.id)
           <span class="modal-top__close-btn btn--os" @click="hideDialog(libraryDialog)"></span>
         </div>
         <section v-for="library  in libraries" :key="library.id" class="book__save__libraries">
-          <div class="book__save__library" @click="handleAddToLibrary(library.id)">
+          <div class="book__save__library" @click="handleAddToLibrary(library.id, bookData.title)">
             <p class="book__save__library__name collapsed-text">{{ library.title }}</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -114,21 +125,6 @@ await loadData(route.params.id)
               />
             </svg>
           </div>
-          <!--            <svg-->
-          <!--              xmlns="http://www.w3.org/2000/svg"-->
-          <!--              width="16"-->
-          <!--              height="16"-->
-          <!--              fill="currentColor"-->
-          <!--              class="bi bi-check2-circle"-->
-          <!--              viewBox="0 0 16 16"-->
-          <!--            >-->
-          <!--              <path-->
-          <!--                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"-->
-          <!--              />-->
-          <!--              <path-->
-          <!--                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"-->
-          <!--              />-->
-          <!--            </svg>-->
         </section>
       </dialog>
       <div v-if="errorMessage" class="error-message">
@@ -147,14 +143,13 @@ await loadData(route.params.id)
       </section>
       <h2 class="book_view__subtitles">Gli utenti hanno valutato:</h2>
       <section class="book_view__reviews">
-        <div class="book_view__review__content">
-          <article class="book_view__review">
-            <div class="book_view__review__content">
-              <h2 class="book_view__review__vote">1/5</h2>
-              <h4 class="book_view__review__category">Gradevolezza</h4>
-            </div>
-          </article>
-        </div>
+        <article class="book_view__review">
+          <div class="book_view__review__content">
+            <h2 class="book_view__review__vote">1/5</h2>
+            <h4 class="book_view__review__category">Gradevolezza</h4>
+          </div>
+        </article>
+
 
         <article class="book_view__review">
           <div class="book_view__review__content">
@@ -184,9 +179,14 @@ await loadData(route.params.id)
           </div>
         </article>
       </section>
-      <button v-if="state.user.isLogged" class="btn--green" @click="showDialog(valutationDialog)">
+
+      <button v-if="showButtons" class="btn--green" @click="showDialog(valutationDialog)" style="margin-right: .3rem;">
         Valuta anche tu!
       </button>
+      <button v-if="showButtons" class="btn--green" @click="showDialog(valutationDialog)">
+        Consiglia un libro!
+      </button>
+
       <dialog ref="valutationDialog" class="book__view__evaluate">
         <div class="modal-top">
           <p>Valuta il libro</p>
@@ -308,6 +308,7 @@ await loadData(route.params.id)
         grid-template-columns: repeat(2, 1fr)
 
       .book_view__review
+        width: 100%
         background-color: rgba($lite, 0.03)
         border: 1px solid rgba($lite, 0.05)
         border-radius: 1rem

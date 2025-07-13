@@ -41,7 +41,7 @@ CREATE TABLE ConsigliLibri
     LibreriaId         INT REFERENCES libreria (LibreriaId),
     LibroConsigliatoId INT REFERENCES libro (id),
     LibroDeiConsigliId INT REFERENCES libro (id),
-    PRIMARY KEY (UserId, LibroConsigliatoId, LibroDeiConsigliId)
+    PRIMARY KEY (UserId, LibroConsigliatoId, LibroDeiConsigliId, LibreriaId)
 );
 
 CREATE TABLE Recensione

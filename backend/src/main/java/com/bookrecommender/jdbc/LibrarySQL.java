@@ -38,6 +38,38 @@ public class LibrarySQL {
         }
     }
 
+    /**
+     * Ritorna tutti i libri salvati in una libreria da un utente
+     * @param userId
+     * @return
+     */
+    public static List<Book> getBooksByUser(String userId) {
+        try(
+                Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
+                PreparedStatement statement = conn.prepareStatement("SELECT * FROM Libro l WHERE l.id IN (SELECT libroId FROM LibroInLibreria WHERE LibreriaId IN (SELECT LibreriaId FROM Libreria WHERE UserId = ?))")
+                ){
+                statement.setString(1, userId);
+                ResultSet rs = statement.executeQuery();
+                List<Book> books = new LinkedList<>();
+                while (rs.next()) {
+                    books.add(new Book(
+                            rs.getString("id"),
+                            rs.getString("Nome"),
+                            rs.getString("Autore"),
+                            rs.getString("Descrizione"),
+                            rs.getString("Categoria"),
+                            rs.getString("Publisher"),
+                            rs.getFloat("Prezzo"),
+                            rs.getString("MesePub"),
+                            rs.getInt("AnnoPub")
+                    ));
+                }
+                return books;
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void createLibrary(String name, String userId) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
