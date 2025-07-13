@@ -18,20 +18,23 @@ public class BookSQL {
     /**
      * Esegue una query di inserimento di un libro nei libri consigliati dati libroId, libreriaId e
      *
-     * @param name   Nome del libro
-     * @param author Autore del libro
-     * @param year   Anno di pubblicazione del libro
+     * @param libroId id del libro consigliato
+     * @param libreriaId id della libreria
+     * @param userId id dell'utente
+     * @param LibrodeiConsigli id del libro a cui viene associato il libro consigliato
      * @return Una lista con i libri ottenuti dalla ricerca
      * @author Lorenzo Beretta
      */
-    public static insertLibriConsigliati(int libroId, int libreriaId, int userId)
+    public static insertLibriConsigliati(int libroId, int libreriaId, int userId, int LibrodeiConsigliId)
     {
         try (Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
 
-  { PreparedStatement statement = conn.prepareStatement(" INSERT INTO `libriconsigliati` (`UserId`, `LibreriaId`, `LibroId`) VAL   UES (?, ?, ?)");
+  { PreparedStatement statement = conn.prepareStatement(" INSERT INTO `libriconsigliati` (`UserId`, `LibreriaId`, `LibroId`,  'LibrodeiConsigliId') VALUES (?, ?, ?,?)");
       pstmt.setInt(1,userId );
       pstmt.setInt(2, libreriaId);
       pstmt.setInt(3, LibroId);
+      pstmt.setInt(4,  LibrodeiConsigliId);
+
 
       int rowsInserted = pstmt.executeUpdate();
       if (rowsInserted > 0) {
