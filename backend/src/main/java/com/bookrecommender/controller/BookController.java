@@ -24,9 +24,20 @@ public class BookController {
      * @author Lorenzo beretta
      */
     public static void getAllBooks(Context ctx) {
-        List<Book> books = BookSQL.getAllBooks();
-        ctx.json(books);
-        ctx.status(200);
+
+        try {
+            List<Book> books = BookSQL.getAllBooks();
+            ctx.json(books);
+            ctx.status(200).json(Map.of(
+                    "status", "success",
+                    "body", book
+            ));
+        } catch (Exception e) {
+            ctx.status(500).json(Map.of(
+                    "status", "error",
+                    "body", e.getMessage()
+            ));
+        }
     }
 
     /**
@@ -36,9 +47,20 @@ public class BookController {
      * @author Lorenzo beretta
      */
     public static void getLibriConsigliatiUtenteLibri(Context ctx) {
-        List<Book> books = BookSQL.getLibriConsigliatiUtenteLibri();
-        ctx.json(books);
-        ctx.status(200);
+
+        try {
+            List<Book> books = BookSQL.getLibriConsigliatiUtenteLibri();
+            ctx.json(books);
+            ctx.status(200).json(Map.of(
+                    "status", "success",
+                    "body", book
+            ));
+        } catch (Exception e) {
+            ctx.status(500).json(Map.of(
+                    "status", "error",
+                    "body", e.getMessage()
+            ));
+        }
     }
 
     /**
@@ -48,10 +70,22 @@ public class BookController {
      * @author Lorenzo beretta
      */
     public static void getLibriConsigliatiLibri(Context ctx) {
-        List<Book> books = BookSQL.getLibriConsigliatiLibri();
-        ctx.json(books);
-        ctx.status(200);
+
+        try {
+            List<Book> books = BookSQL.getLibriConsigliatiLibri();
+            ctx.json(books);
+            ctx.status(200).json(Map.of(
+                    "status", "success",
+                    "body", book
+            ));
+        } catch (Exception e) {
+            ctx.status(500).json(Map.of(
+                    "status", "error",
+                    "body", e.getMessage()
+            ));
+        }
     }
+
 
     /**
      * Ritorna i dati di un  libro dato un id

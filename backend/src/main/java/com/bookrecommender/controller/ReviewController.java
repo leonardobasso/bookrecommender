@@ -17,7 +17,38 @@ import java.util.Map;
  */
 public class BookController {
 
-    public void insertReview(Context ctx) {
+    public static void insertReview(Context ctx) {
+        try
+        insertReview();
+        ctx.status(200).json(Map.of(
+                "status", "success",
+                "body", books
+        ));
+    catch(Exception e)
+        {
+            ctx.status(200).json(Map.of(
+                    "status", "error",
+                    "body", e.getMessage()
+
+        }
+    }
+
+    public static void getReviewByBook(Context ctx)
+    {
+        try
+        insertReview();
+        ctx.status(200).json(Map.of(
+                "status", "success",
+                "body", books
+        ));
+    catch(Exception e)
+        {
+            ctx.status(200).json(Map.of(
+                    "status", "error",
+                    "body", e.getMessage()
+
+        }
+
 
     }
 
