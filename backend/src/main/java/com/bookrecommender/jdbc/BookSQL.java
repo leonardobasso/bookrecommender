@@ -20,11 +20,10 @@ public class BookSQL {
      *
      * @param suggestedId   id del libro
      * @param initialBookId id del libro che vede suggestedId come libro consigliato
-     * @param libreriaId    id della libreria
      * @param userId        Id dell'utente
      * @author Lorenzo Beretta, Leonardo Basso
      */
-    public static String insertLibriConsigliati(int suggestedId, int initialBookId, int libreriaId, String userId) {
+    public static String insertLibriConsigliati(int suggestedId, int initialBookId, String userId) {
         List<Book> existingSuggestions = BookSQL.getLibriConsigliatiUtenteLibri(userId, initialBookId);
         if (existingSuggestions.size() > 3) {
             return "Già inseriti 3 libri";
@@ -40,12 +39,11 @@ public class BookSQL {
         if (!check) return "Libro non presente nella libreria";
 
         try (Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-             PreparedStatement statement = conn.prepareStatement(" INSERT INTO `Libriconsigliati` (`UserId`, `LibreriaId`, `LibroConsigliatoId`, `LibroDeiConsigliId`) VALUES (?, ?, ?, ?)");
+             PreparedStatement statement = conn.prepareStatement(" INSERT INTO ConsigliLibri (UserId, LibroConsigliatoId, LibroDeiConsigliId) VALUES (?, ?, ?)");
         ) {
             statement.setString(1, userId);
-            statement.setInt(2, libreriaId);
-            statement.setInt(3, suggestedId);
-            statement.setInt(4, initialBookId);
+            statement.setInt(2, suggestedId);
+            statement.setInt(3, initialBookId);
 
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
@@ -69,7 +67,7 @@ public class BookSQL {
         List<Book> books = new LinkedList<>();
         try {
             Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM libro INNER JOIN libriconsigliati as lc ON libro.id=lc.LibroConsigliatoId where lc.UserId=? and lc.LibroDeiConsigliId=?");
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM libro INNER JOIN ConsigliLibri as lc ON libro.id=lc.LibroConsigliatoId where lc.UserId=? and lc.LibroDeiConsigliId=?");
             statement.setString(1, UserId);
             statement.setInt(2, LibroId);
             ResultSet rs = statement.executeQuery();
@@ -108,7 +106,7 @@ public class BookSQL {
         List<Book> books = new LinkedList<>();
         try {
             Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM libro INNER JOIN libriconsigliati as lc ON libro.id=lc.LibroConsigliatoId where lc.LibroDeiConsigliId=?");
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM libro INNER JOIN ConsigliLibri as lc ON libro.id=lc.LibroConsigliatoId where lc.LibroDeiConsigliId=?");
             statement.setInt(1, LibroId);
             ResultSet rs = statement.executeQuery();
 

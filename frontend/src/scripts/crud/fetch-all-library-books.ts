@@ -16,7 +16,7 @@ export async function fetchAllLibraryBooks(userId: string) {
       state.clearLibrary()
       for (const book of data.body) {
         console.log(book)
-        state.addLibraryBook(book.id, book.title)
+        state.addLibraryBook(book.id, book.nome)
       }
     } else {
       console.error(data.body)

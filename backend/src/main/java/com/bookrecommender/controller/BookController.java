@@ -43,7 +43,7 @@ public class BookController {
             String userId = suggestion.getUserId();
 
             List<Book> books = BookSQL.getLibriConsigliatiUtenteLibri(userId, libroId);
-            ;
+
             ctx.status(200).json(Map.of(
                     "status", "success",
                     "body", books
@@ -145,10 +145,9 @@ public class BookController {
 
             int libroConsigliatoId = suggestion.getLibroConsigliatoId();
             int libroDeiConsigliId = suggestion.getLibroDeiConsigliId();
-            int libreriaId = suggestion.getLibreriaId();
             String userId = suggestion.getUserId();
 
-            String res = BookSQL.insertLibriConsigliati(libroConsigliatoId, libroDeiConsigliId, libreriaId, userId);
+            String res = BookSQL.insertLibriConsigliati(libroConsigliatoId, libroDeiConsigliId, userId);
 
             if (res.equals("Già inseriti 3 libri")) {
                 ctx.status(412).json(Map.of(

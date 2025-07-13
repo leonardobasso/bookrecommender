@@ -12,12 +12,14 @@ import {state} from '@/scripts/state.ts'
 import {useRoute, useRouter} from 'vue-router';
 import {fetchLibraries} from "@/scripts/crud/fetch-libraries.ts";
 import {addBookInLibrary} from "@/scripts/crud/add-book-in-library.ts";
+import {createSuggestion} from "@/scripts/crud/create-suggestion.ts";
 
 const route = useRoute();
 const router = useRouter()
 const bookData = ref<any>(null);
 const errorMessage = ref<string | null>(null);
 const libraries = ref<Array<any>>([]);
+await fetchLibraries(state.user.userId)
 libraries.value = await fetchLibraries(state.user.userId)
 
 /**
@@ -44,6 +46,7 @@ async function handleAddToLibrary(libId: string, title: string) {
 
 const libraryDialog = ref<HTMLDialogElement | null>(null)
 const valutationDialog = ref<HTMLDialogElement | null>(null)
+const adviceDialog = ref<HTMLDialogElement | null>(null)
 
 /**
  * Questa funzione prende in input una reference a un dialog e lo mostra
@@ -73,10 +76,18 @@ await loadData(route.params.id)
  * Controlla che il libro sia in libraryBooks, raccolta di tutti i libri salvati in librerie da un utente
  */
 const showButtons = computed(() => {
-  return state.libraryBooks.some(book => book.id === route.params.id)})
-console.log("📚 state.libraryBooks", state.libraryBooks)
-console.log("🔍 route.params.id", route.params.id)
+  return state.libraryBooks.some(book => book.id === route.params.id)
+})
 
+async function handleAddSuggestion(racomendedId: string) {
+  try{
+    await createSuggestion(state.user.userId, racomendedId, route.params.id)
+  } catch (e) {
+    console.log("ERRORE AH IO ESISTO")
+    errorMessage.value = e
+    throw new Error(e)
+  }
+}
 </script>
 
 <template>
@@ -108,8 +119,9 @@ console.log("🔍 route.params.id", route.params.id)
           <p>Le tue librerie:</p>
           <span class="modal-top__close-btn btn--os" @click="hideDialog(libraryDialog)"></span>
         </div>
-        <section v-for="library  in libraries" :key="library.id" class="book__save__libraries">
+        <section v-for="library in libraries" :key="library.id" class="book__save__libraries">
           <div class="book__save__library" @click="handleAddToLibrary(library.id, bookData.title)">
+
             <p class="book__save__library__name collapsed-text">{{ library.title }}</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -180,12 +192,35 @@ console.log("🔍 route.params.id", route.params.id)
         </article>
       </section>
 
-      <button v-if="showButtons" class="btn--green" @click="showDialog(valutationDialog)" style="margin-right: .3rem;">
+      <button v-if="showButtons" class="btn--green" @click="showDialog(valutationDialog)"
+              style="margin-right: .3rem;">
         Valuta anche tu!
       </button>
-      <button v-if="showButtons" class="btn--green" @click="showDialog(valutationDialog)">
+      <button v-if="showButtons" class="btn--green" @click="showDialog(adviceDialog)">
         Consiglia un libro!
       </button>
+
+
+      <dialog ref="adviceDialog" class="book__view__advice">
+        <div class="modal-top">
+          <p>Aggiungi un consigliato</p>
+          <span class="modal-top__close-btn btn--os" @click="hideDialog(adviceDialog)"></span>
+        </div>
+
+        <div v-if="errorMessage" style="color: #d9534f; z-index: 999">{{ errorMessage }}</div>
+
+        <section class="book__view__advice__book" v-for="book in state.libraryBooks" :key="book.id">
+          <p>{{ book.title }}</p>
+          <span @click="handleAddSuggestion(book.id)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+               class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path
+              d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+          </svg>
+          </span>
+        </section>
+      </dialog>
 
       <dialog ref="valutationDialog" class="book__view__evaluate">
         <div class="modal-top">
@@ -333,6 +368,16 @@ console.log("🔍 route.params.id", route.params.id)
         textarea
           background-color: rgba($lite, 0.02)
           resize: none
+
+  .book__view__advice__book
+    display: flex
+    gap: 1rem
+    align-items: center
+    justify-content: space-between
+    margin-bottom: .5rem
+
+    svg
+      cursor: pointer
 
 .modal-top
   display: flex

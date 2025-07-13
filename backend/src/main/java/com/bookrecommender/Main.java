@@ -31,7 +31,7 @@ public class Main {
         app.get("/api/book/{id}", BookController::getSingleBook);
 
         // api/book/suggestion
-        app.post("/api/book/suggestion/post", BookController::insertSuggestion);
+        app.post("/api/book/suggestion/create", BookController::insertSuggestion);
         app.get("/api/book/suggestion/get/all/{id}", BookController::getLibriConsigliatiLibri);
         app.get("/api/book/suggestion/get/user", BookController::getLibriConsigliatiUtenteLibri);
 

@@ -38,10 +38,9 @@ CREATE TABLE LibroInLibreria
 CREATE TABLE ConsigliLibri
 (
     UserId             VARCHAR(255) REFERENCES utente (UserId),
-    LibreriaId         INT REFERENCES libreria (LibreriaId),
     LibroConsigliatoId INT REFERENCES libro (id),
     LibroDeiConsigliId INT REFERENCES libro (id),
-    PRIMARY KEY (UserId, LibroConsigliatoId, LibroDeiConsigliId, LibreriaId)
+    PRIMARY KEY (UserId, LibroConsigliatoId, LibroDeiConsigliId)
 );
 
 CREATE TABLE Recensione
