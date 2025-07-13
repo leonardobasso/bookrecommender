@@ -2,6 +2,9 @@ package com.bookrecommender.model;
 
 /**
  * Model della libreria
+ *
+ * @see com.bookrecommender.jdbc.LibrarySQL
+ * @see com.bookrecommender.controller.LibraryController
  */
 public class Libreria {
     private String LibreriaId;

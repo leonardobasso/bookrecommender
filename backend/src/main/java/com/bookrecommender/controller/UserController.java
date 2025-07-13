@@ -49,7 +49,7 @@ public class UserController {
     }
 
     /**
-     * Controller per la registrazione
+     * Controller per il login
      *
      * @param ctx Context
      * @author Leonardo Basso

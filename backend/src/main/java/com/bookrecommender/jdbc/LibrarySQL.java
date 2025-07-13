@@ -12,8 +12,8 @@ import java.util.List;
  * Tutte le operazioni di SQL/JDBC per le operazioni sulle librerie
  *
  * @author Lorenzo Beretta
- * @see com.bookrecommender.model.Book
- * @see com.bookrecommender.controller.BookController
+ * @see com.bookrecommender.model.Libreria
+ * @see com.bookrecommender.controller.LibraryController
  */
 public class LibrarySQL {
     public static List<Libreria> getLibrariesByUser(String id) {
@@ -39,37 +39,45 @@ public class LibrarySQL {
     }
 
     /**
-     * Ritorna tutti i libri salvati in una libreria da un utente
-     * @param userId
-     * @return
+     * Esegue una query per riportare tutte le librerie di un determinato utente
+     *
+     * @param userId id dell'utente di cui si vogliono cercare le librerie
+     * @author Lorenzo Beretta
      */
     public static List<Book> getBooksByUser(String userId) {
-        try(
+        try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-                PreparedStatement statement = conn.prepareStatement("SELECT * FROM Libro l WHERE l.id IN (SELECT libroId FROM LibroInLibreria WHERE LibreriaId IN (SELECT LibreriaId FROM Libreria WHERE UserId = ?))")
-                ){
-                statement.setString(1, userId);
-                ResultSet rs = statement.executeQuery();
-                List<Book> books = new LinkedList<>();
-                while (rs.next()) {
-                    books.add(new Book(
-                            rs.getString("id"),
-                            rs.getString("Nome"),
-                            rs.getString("Autore"),
-                            rs.getString("Descrizione"),
-                            rs.getString("Categoria"),
-                            rs.getString("Publisher"),
-                            rs.getFloat("Prezzo"),
-                            rs.getString("MesePub"),
-                            rs.getInt("AnnoPub")
-                    ));
-                }
-                return books;
-        } catch (SQLException e){
+                PreparedStatement statement = conn.prepareStatement("SELECT DISTINCT * FROM Libro l WHERE l.id IN (SELECT libroId FROM LibroInLibreria WHERE LibreriaId IN (SELECT LibreriaId FROM Libreria WHERE UserId = ?))")
+        ) {
+            statement.setString(1, userId);
+            ResultSet rs = statement.executeQuery();
+            List<Book> books = new LinkedList<>();
+            while (rs.next()) {
+                books.add(new Book(
+                        rs.getString("id"),
+                        rs.getString("Nome"),
+                        rs.getString("Autore"),
+                        rs.getString("Descrizione"),
+                        rs.getString("Categoria"),
+                        rs.getString("Publisher"),
+                        rs.getFloat("Prezzo"),
+                        rs.getString("MesePub"),
+                        rs.getInt("AnnoPub")
+                ));
+            }
+            return books;
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * esegue una query che crea una nuova libreria
+     *
+     * @param userId id dell'utente che crea la libreria
+     * @param name   nome della libreria
+     * @author Lorenzo Beretta
+     */
     public static void createLibrary(String name, String userId) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
@@ -84,6 +92,13 @@ public class LibrarySQL {
         }
     }
 
+    /**
+     * esegue una query per aggiungere un libro alla libreria
+     *
+     * @param libreriaId id della libreria a cui si vuol aggiungere un libro
+     * @param libroId    id del libro da inserire nella libreria
+     * @author Lorenzo Beretta
+     */
     public static void addBook(int libreriaId, int libroId) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
@@ -97,6 +112,12 @@ public class LibrarySQL {
         }
     }
 
+    /**
+     * esegue una query per riportare tutti i libri di una determinata libreria
+     *
+     * @param idLibreria id della libreria di cui si vuol vedere i libri legati
+     * @author Lorenzo Beretta
+     */
     public static List<Book> details(int idLibreria) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);

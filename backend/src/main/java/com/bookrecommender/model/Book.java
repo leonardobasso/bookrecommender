@@ -2,6 +2,9 @@ package com.bookrecommender.model;
 
 /**
  * Model del libro
+ * 
+ * @see com.bookrecommender.jdbc.BookSQL
+ * @see com.bookrecommender.controller.BookController
  */
 public class Book {
     private String id;

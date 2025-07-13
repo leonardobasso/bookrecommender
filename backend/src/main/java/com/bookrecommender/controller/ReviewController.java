@@ -11,8 +11,8 @@ import java.util.Map;
  * Controller per le operazioni sui libri
  *
  * @author Lorenzo Beretta
- * @see com.bookrecommender.model.Book
- * @see com.bookrecommender.jdbc.BookSQL
+ * @see com.bookrecommender.model.Review
+ * @see com.bookrecommender.jdbc.ReviewSQL
  */
 public class ReviewController {
 

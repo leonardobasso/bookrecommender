@@ -11,8 +11,8 @@ import java.util.List;
  * Tutte le operazioni di SQL/JDBC per le operazioni sulle recensioni
  *
  * @author Lorenzo Beretta
- * @see com.bookrecommender.model.Book
- * @see com.bookrecommender.controller.BookController
+ * @see com.bookrecommender.model.Review
+ * @see com.bookrecommender.controller.ReviewController
  */
 public class ReviewSQL {
     /**

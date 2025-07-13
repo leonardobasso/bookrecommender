@@ -2,6 +2,9 @@ package com.bookrecommender.model;
 
 /**
  * Model delle recensioni
+ *
+ * @see com.bookrecommender.jdbc.ReviewSQL
+ * @see com.bookrecommender.controller.ReviewController
  */
 public class Review {
     private String userId;

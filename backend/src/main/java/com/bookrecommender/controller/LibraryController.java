@@ -9,8 +9,21 @@ import io.javalin.http.Context;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller per la libreria
+ *
+ * @author Leonardo Basso, Lorenzo Beretta
+ * @see LibrarySQL
+ * @see com.bookrecommender.model.Libreria
+ * @see com.bookrecommender.jdbc.LibrarySQL
+ */
 public class LibraryController {
 
+    /**
+     * Ritorna tutte le librerie di un determinato utente
+     *
+     * @param ctx Context
+     */
     public static void getLibrariesByUser(Context ctx) {
         String id = ctx.pathParam("id");
         List<Libreria> libraries = LibrarySQL.getLibrariesByUser(id);
@@ -28,6 +41,10 @@ public class LibraryController {
         }
     }
 
+    /**
+     * Crea una nuova libreria
+     * @param ctx Context
+     */
     public static void createLibrary(Context ctx) {
         try {
             Libreria libreria = ctx.bodyAsClass(Libreria.class);
@@ -54,6 +71,11 @@ public class LibraryController {
         }
     }
 
+    /**
+     * Aggiunge un libro a una libreria
+     *
+     * @param ctx Context
+     */
     public static void addBook(Context ctx) {
         try {
             LibroInLibreria lil = ctx.bodyAsClass(LibroInLibreria.class);
@@ -74,6 +96,11 @@ public class LibraryController {
         }
     }
 
+    /**
+     * Mostra tutti i libri di una libreria
+     *
+     * @param ctx Context
+     */
     public static void details(Context ctx) {
         try {
             int idLibreria = Integer.parseInt(ctx.pathParam("id"));
@@ -90,6 +117,11 @@ public class LibraryController {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * RItorna tutti i libri che un utente ha salvato in ogni libreria
+     * @param ctx
+     */
     public static void getAllBooksByUser(Context ctx) {
         try {
             String userId = ctx.pathParam("id");

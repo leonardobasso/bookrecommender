@@ -3,6 +3,10 @@ package com.bookrecommender.utils;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
+/**
+ * Crypt e decrypt usando Argon2
+ * @see com.bookrecommender.jdbc.UserSQL
+ */
 public class PassTools {
     /**
      * Crypta le password usando Argon2

@@ -274,6 +274,7 @@ async function handleAddSuggestion(racomendedId: string) {
         </RouterLink>
       </section>
       <h2 class="book_view__subtitles" v-if="state.user.isLogged">I miei libri consigliati: </h2>
+      <p v-if="mySuggestedBooks.length == 0">Nessun libro consigliato...</p>
       <section v-if="state.user.isLogged" class="book_view__suggestions">
         <RouterLink
           v-for="book in mySuggestedBooks"
