@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Tutte le operazioni di SQL/JDBC per le operazioni sui libri
+ * Tutte le operazioni di SQL/JDBC per le operazioni sulle recensioni
  *
  * @author Lorenzo Beretta
  * @see com.bookrecommender.model.Book
