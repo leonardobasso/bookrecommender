@@ -6,7 +6,18 @@ import com.bookrecommender.controller.UserController;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
+/**
+ * Configurazione e router dell'api e di Javalin
+ *
+ * @author Leonardo Basso
+ */
 public class Main {
+    /**
+     * Metodo per configurare Javalin e far partire il server
+     *
+     * @param args
+     * @author Leonard Basso
+     */
     public static void main(String[] args) {
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors -> {

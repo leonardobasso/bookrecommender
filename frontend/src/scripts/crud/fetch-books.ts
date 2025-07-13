@@ -1,3 +1,8 @@
+/**
+ * Wrapper per il fetch di tutti i libri
+ * @author Leonardo Basso
+ *
+ */
 export async function fetchBooks(){
   const url: string = "http://localhost:7070/api/book/all"
   try {
@@ -10,7 +15,7 @@ export async function fetchBooks(){
         title: book.nome,
         author: book.autore,
         year: book.annoPub,
-        category: book.autore,
+        category: book.categoria,
       }
       books.push(add)
     })

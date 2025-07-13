@@ -4,6 +4,7 @@ import LogInView from '@/views/auth/LogInView.vue'
 import RegistrationView from '@/views/auth/RegistrationView.vue'
 import BookView from '@/views/books/BookView.vue'
 import UserView from '@/views/UserView.vue'
+import LibraryBookView from "@/views/books/LibraryBookView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,12 @@ const router = createRouter({
       path: '/books/book/:id',
       name: 'book',
       component: BookView,
+      props: true,
+    },
+    {
+      path: '/library/books/:id',
+      name: 'libBooks',
+      component: LibraryBookView,
       props: true,
     },
     {
