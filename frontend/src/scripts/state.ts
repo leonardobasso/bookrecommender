@@ -51,4 +51,5 @@ export const state = reactive({
   addLibraryBook(id: string, title: string): void {
     this.libraryBooks.push({id, title});
   },
+  activePage: "home"
 })

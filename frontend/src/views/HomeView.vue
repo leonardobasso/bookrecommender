@@ -26,8 +26,6 @@ async function handleSearch() {
 
 <template>
   <main class="homepage">
-    <p v-if="state.user.isLogged">Ciao {{ state.user.userId }}</p>
-    <br> <br>
     <br>
     <label for="" class="homepage__search">
       <span class="search__section">

@@ -50,7 +50,6 @@ function hideDialog() {
 <template>
   <section class="user__view" v-if="state.user.isLogged">
     <header class="user__view__top">
-      <h2>Ciao {{ state.user.userId }}</h2>
       <button @click="state.user.setLogOut()" class="user__view__logout btn--red">
         Log out
       </button>
