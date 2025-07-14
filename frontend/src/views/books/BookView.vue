@@ -33,6 +33,7 @@ const adviceDialog = ref<HTMLDialogElement | null>(null)
 
 const suggestedBooks = ref<Array>('')
 const mySuggestedBooks = ref<Array>('')
+const reviewList = ref<Array>('')
 
 const votoStileRef = ref<number | null>(null)
 const votoContenutoRef = ref<number | null>(null)
@@ -49,12 +50,14 @@ const commentoFinale = ref<string | null>(null)
 
 // Function invocation + ref value declaration
 await loadData(route.params.id)
+
 suggestedBooks.value = await fetchSuggestionsByBook(route.params.id)
 mySuggestedBooks.value = await fetchSuggestionsByUser(state.user.userId, route.params.id)
+
+let reviews = await fetchReviews(route.params.id)
+reviewList.value = reviews.reviews
+
 libraries.value = await fetchLibraries(state.user.userId)
-const reviews = await fetchReviews(route.params.id)
-console.log("reviews: ", reviews)
-await fetchLibraries(state.user.userId)
 
 // Function implementation
 
@@ -113,6 +116,7 @@ async function handleAddSuggestion(racomendedId: string) {
   try {
     await createSuggestion(state.user.userId, racomendedId, route.params.id)
     suggestedBooks.value = await fetchSuggestionsByBook(route.params.id)
+    mySuggestedBooks.value = await fetchSuggestionsByUser(state.user.userId, route.params.id)
   } catch (e) {
     errorMessage.value = e
     throw new Error(e)
@@ -135,6 +139,9 @@ async function handleNewReview() {
       commentoGradevolezza.value, commentoOriginalita.value, commentoEdizione.value,
       commentoFinale.value)
     console.log(res)
+    reviews = await fetchReviews(route.params.id)
+    reviewList.value = reviews.reviews
+
   } catch (e) {
     errorMessage.value = e
     throw new Error(e)
@@ -207,7 +214,7 @@ async function handleNewReview() {
       <section class="book_view__reviews">
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote">{{reviews.mediaGradevolezza}}/5</h2>
+            <h2 class="book_view__review__vote">{{ reviews.mediaGradevolezza }}/5</h2>
             <h4 class="book_view__review__category">Gradevolezza</h4>
           </div>
         </article>
@@ -215,28 +222,28 @@ async function handleNewReview() {
 
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote">{{reviews.mediaStile}}/5</h2>
+            <h2 class="book_view__review__vote">{{ reviews.mediaStile }}/5</h2>
             <h4 class="book_view__review__category">Stile</h4>
           </div>
         </article>
 
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote">{{reviews.mediaContenuto}}/5</h2>
+            <h2 class="book_view__review__vote">{{ reviews.mediaContenuto }}/5</h2>
             <h4 class="book_view__review__category">Contenuto</h4>
           </div>
         </article>
 
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote">{{reviews.mediaOriginalita}}/5</h2>
+            <h2 class="book_view__review__vote">{{ reviews.mediaOriginalita }}/5</h2>
             <h4 class="book_view__review__category">Originalità</h4>
           </div>
         </article>
 
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote"> {{reviews.mediaEdizione}}/5</h2>
+            <h2 class="book_view__review__vote"> {{ reviews.mediaEdizione }}/5</h2>
             <h4 class="book_view__review__category">Edizione</h4>
           </div>
         </article>
@@ -318,10 +325,11 @@ async function handleNewReview() {
         </RouterLink>
       </section>
       <h2 class="book_view__subtitles" v-if="state.user.isLogged">I miei libri consigliati: </h2>
-      <p v-if="mySuggestedBooks.length == 0 && state.user.isLogged">Non hai consigliato nessun libro...</p>
+      <p v-if="mySuggestedBooks.length == 0 && state.user.isLogged">Non hai consigliato nessun
+        libro...</p>
 
-      <section v-if="state.user.isLogged" class="book_view__suggestions">
-        <button v-if="showButtons && mySuggestedBooks.length <= 3" class="btn--green"
+      <section v-if="state.user.isLogged && mySuggestedBooks" class="book_view__suggestions">
+        <button v-if="showButtons && mySuggestedBooks.length < 3" class="btn--green"
                 @click="showDialog(adviceDialog)">
           Consiglia un libro!
         </button>
@@ -332,6 +340,60 @@ async function handleNewReview() {
         >
           <Pill :content="book.title"/>
         </RouterLink>
+      </section>
+
+      <section class="book__view__comments" v-if="reviewList.length > 0">
+        <h3 class="book_view__subtitles">Commenti:</h3>
+        <section v-for="comment in reviewList" class="book__view__comment">
+          <h4>{{comment.userId}} ha commentato:</h4>
+          <article class="book__view__comment__box">
+            <div>
+              <h4>Stile</h4>
+              <p>{{ comment.stileVoto }}/5</p>
+            </div>
+            <p>{{ comment.stileCommento }}</p>
+          </article>
+
+          <article class="book__view__comment__box">
+            <div>
+              <h4>Contenuto</h4>
+              <p>{{ comment.contenutoVoto }}/5</p>
+            </div>
+            <p>{{ comment.contenutoCommento }}</p>
+          </article>
+
+          <article class="book__view__comment__box">
+            <div>
+              <h4>Originalità</h4>
+              <p>{{ comment.originalitaVoto }}/5</p>
+            </div>
+            <p>{{ comment.originalitaCommento }}</p>
+          </article>
+          <article class="book__view__comment__box">
+            <div>
+              <h4>Gradevolezza</h4>
+              <p>{{ comment.gradevolezzaVoto }}/5</p>
+            </div>
+            <p>{{ comment.gradevolezzaCommento }}</p>
+          </article>
+
+          <article class="book__view__comment__box">
+            <div>
+              <h4>Edizione</h4>
+              <p>{{ comment.edizioneVoto }}/5</p>
+            </div>
+            <p>{{ comment.edizioneCommento }}</p>
+          </article>
+
+          <article class="book__view__comment__box">
+            <div>
+              <h4>Voto finale</h4>
+              <p>{{ comment.votoFinale }}/5</p>
+            </div>
+            <p>{{ comment.commentoFinale }}</p>
+          </article>
+        </section>
+
       </section>
     </div>
   </article>
@@ -457,6 +519,17 @@ async function handleNewReview() {
   .book_view__suggestions
     *
       margin-left: .1rem
+  .book__view__comments
+    .book__view__comment
+      @include default-box
+      border-radius: 1rem
+      padding: .5rem
+      margin-bottom: .5rem
+      .book__view__comment__box
+        margin-top: .3rem
+        display: flex
+        gap: 1rem
+        border-bottom: 1px solid rgba($lite, 0.05)
 
 .modal-top
   display: flex
