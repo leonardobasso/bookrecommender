@@ -152,14 +152,14 @@ public class BookSQL {
             while (rs.next()) {
                 books.add(new Book(
                         rs.getString("id"),
-                        rs.getString("Nome"),
-                        rs.getString("Autore"),
-                        rs.getString("Descrizione"),
-                        rs.getString("Categoria"),
-                        rs.getString("Publisher"),
-                        rs.getFloat("Prezzo"),
-                        rs.getString("MesePub"),
-                        rs.getInt("AnnoPub")
+                        rs.getString("nome"),
+                        rs.getString("autore"),
+                        rs.getString("descrizione"),
+                        rs.getString("categoria"),
+                        rs.getString("publisher"),
+                        rs.getFloat("prezzo"),
+                        rs.getString("mesepub"),
+                        rs.getInt("annopub")
                 ));
             }
             return books;
