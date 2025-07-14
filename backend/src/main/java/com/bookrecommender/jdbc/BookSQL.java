@@ -40,7 +40,7 @@ public class BookSQL {
         if (!check) return "Libro non presente nella libreria";
 
         try (Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-             PreparedStatement statement = conn.prepareStatement(" INSERT INTO ConsigliLibri (UserId, LibroConsigliatoId, LibroDeiConsigliId) VALUES (?, ?, ?)");
+             PreparedStatement statement = conn.prepareStatement(" INSERT INTO ConsigliLibri (userid, libroconsigliatoid, librodeiconsigliid) VALUES (?, ?, ?)");
         ) {
             statement.setString(1, userId);
             statement.setInt(2, suggestedId);
@@ -68,7 +68,7 @@ public class BookSQL {
         List<Book> books = new LinkedList<>();
         try {
             Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM libro INNER JOIN ConsigliLibri as lc ON libro.id=lc.LibroConsigliatoId where lc.UserId=? and lc.LibroDeiConsigliId=?");
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Libro l INNER JOIN ConsigliLibri as lc ON l.id=lc.libroconsigliatoid where lc.userid=? and lc.librodeiconsigliid=?");
             statement.setString(1, UserId);
             statement.setInt(2, LibroId);
             ResultSet rs = statement.executeQuery();
@@ -78,14 +78,14 @@ public class BookSQL {
             while (rs.next()) {
                 books.add(new Book(
                         rs.getString("id"),
-                        rs.getString("Nome"),
-                        rs.getString("Autore"),
-                        rs.getString("Descrizione"),
-                        rs.getString("Categoria"),
-                        rs.getString("Publisher"),
-                        rs.getFloat("Prezzo"),
-                        rs.getString("MesePub"),
-                        rs.getInt("AnnoPub")
+                        rs.getString("nome"),
+                        rs.getString("autore"),
+                        rs.getString("descrizione"),
+                        rs.getString("categoria"),
+                        rs.getString("publisher"),
+                        rs.getFloat("prezzo"),
+                        rs.getString("mesepub"),
+                        rs.getInt("annopub")
                 ));
 
             }
@@ -107,7 +107,7 @@ public class BookSQL {
         List<Book> books = new LinkedList<>();
         try {
             Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-            PreparedStatement statement = conn.prepareStatement("SELECT DISTINCT libro.* FROM libro INNER JOIN ConsigliLibri as lc ON libro.id=lc.LibroConsigliatoId where lc.LibroDeiConsigliId=?");
+            PreparedStatement statement = conn.prepareStatement("SELECT DISTINCT l.* FROM Libro as l INNER JOIN ConsigliLibri as lc ON l.id=lc.libroconsigliatoid where lc.librodeiconsigliid=?");
             statement.setInt(1, LibroId);
             ResultSet rs = statement.executeQuery();
 
@@ -116,14 +116,14 @@ public class BookSQL {
             while (rs.next()) {
                 books.add(new Book(
                         rs.getString("id"),
-                        rs.getString("Nome"),
-                        rs.getString("Autore"),
-                        rs.getString("Descrizione"),
-                        rs.getString("Categoria"),
-                        rs.getString("Publisher"),
-                        rs.getFloat("Prezzo"),
-                        rs.getString("MesePub"),
-                        rs.getInt("AnnoPub")
+                        rs.getString("nome"),
+                        rs.getString("autore"),
+                        rs.getString("descrizione"),
+                        rs.getString("categoria"),
+                        rs.getString("publisher"),
+                        rs.getFloat("prezzo"),
+                        rs.getString("mesepub"),
+                        rs.getInt("annopub")
                 ));
 
             }
@@ -184,14 +184,14 @@ public class BookSQL {
             rs.next();
             return new Book(
                     rs.getString("id"),
-                    rs.getString("Nome"),
-                    rs.getString("Autore"),
-                    rs.getString("Descrizione"),
-                    rs.getString("Categoria"),
-                    rs.getString("Publisher"),
-                    rs.getFloat("Prezzo"),
-                    rs.getString("MesePub"),
-                    rs.getInt("AnnoPub")
+                    rs.getString("nome"),
+                    rs.getString("autore"),
+                    rs.getString("descrizione"),
+                    rs.getString("categoria"),
+                    rs.getString("publisher"),
+                    rs.getFloat("prezzo"),
+                    rs.getString("mesepub"),
+                    rs.getInt("annopub")
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -214,15 +214,15 @@ public class BookSQL {
         List<Object> params = new LinkedList<>();
 
         if (name != null && !name.isEmpty()) {
-            sb.append(" AND LOWER(Nome) LIKE ?");
+            sb.append(" AND LOWER(nome) LIKE ?");
             params.add("%" + name.toLowerCase() + "%");
         }
         if (author != null && !author.isEmpty()) {
-            sb.append(" AND LOWER(Autore) LIKE ?");
+            sb.append(" AND LOWER(autore) LIKE ?");
             params.add("%" + author.toLowerCase() + "%");
         }
         if (year != null) {
-            sb.append(" AND AnnoPub = ?");
+            sb.append(" AND annopub = ?");
             params.add(year);
         }
 
@@ -244,14 +244,14 @@ public class BookSQL {
                 while (rs.next()) {
                     Book book = new Book(
                             rs.getString("id"),
-                            rs.getString("Nome"),
-                            rs.getString("Autore"),
-                            rs.getString("Descrizione"),
+                            rs.getString("nome"),
+                            rs.getString("autore"),
+                            rs.getString("descrizione"),
                             rs.getString("categoria"),
                             rs.getString("publisher"),
-                            rs.getFloat("Prezzo"),
-                            rs.getString("MesePub"),
-                            rs.getInt("AnnoPub")
+                            rs.getFloat("prezzo"),
+                            rs.getString("mesepub"),
+                            rs.getInt("annopub")
                     );
                     books.add(book);
                 }
@@ -259,9 +259,6 @@ public class BookSQL {
         } catch (SQLException e) {
             throw new RuntimeException("SQL Error searching books", e);
         }
-
         return books;
     }
-
-
 }

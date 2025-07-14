@@ -59,6 +59,8 @@ reviewList.value = reviews.reviews
 
 libraries.value = await fetchLibraries(state.user.userId)
 
+console.log(state.libraryBooks)
+
 // Function implementation
 
 /**
@@ -108,9 +110,8 @@ function hideDialog(modal: typeof libraryDialog.value) {
 /**
  * Controlla che il libro sia in libraryBooks, raccolta di tutti i libri salvati in librerie da un utente
  */
-const showButtons = computed(() => {
-  return state.libraryBooks.some(book => book.id === route.params.id)
-})
+const showButtons = ref(false);
+showButtons.value = state.libraryBooks.some(book => book.id === route.params.id);
 
 async function handleAddSuggestion(racomendedId: string) {
   try {
@@ -249,8 +250,10 @@ async function handleNewReview() {
         </article>
       </section>
 
-      <button v-if="showButtons" class="btn--green" @click="showDialog(valutationDialog)"
-              style="margin-right: .3rem;">
+      <button
+        v-if="showButtons && state.user.isLogged"
+        class="btn--green" @click="showDialog(valutationDialog)"
+        style="margin-right: .3rem;">
         Valuta anche tu!
       </button>
 
@@ -325,14 +328,17 @@ async function handleNewReview() {
         </RouterLink>
       </section>
       <h2 class="book_view__subtitles" v-if="state.user.isLogged">I miei libri consigliati: </h2>
-      <p v-if="mySuggestedBooks.length == 0 && state.user.isLogged">Non hai consigliato nessun
+      <p v-if="mySuggestedBooks.length == 0 && state.libraryBooks != null">Non hai consigliato
+        nessun
         libro...</p>
 
-      <section v-if="state.user.isLogged && mySuggestedBooks" class="book_view__suggestions">
+      <section v-if="state.user.isLogged && mySuggestedBooks"
+               class="book_view__suggestions">
         <button v-if="showButtons && mySuggestedBooks.length < 3" class="btn--green"
-                @click="showDialog(adviceDialog)">
+                @click="showDialog(adviceDialog);">
           Consiglia un libro!
         </button>
+
         <RouterLink
           v-for="book in mySuggestedBooks"
           :key="book.id"
@@ -345,7 +351,7 @@ async function handleNewReview() {
       <section class="book__view__comments" v-if="reviewList.length > 0">
         <h3 class="book_view__subtitles">Commenti:</h3>
         <section v-for="comment in reviewList" class="book__view__comment">
-          <h4>{{comment.userId}} ha commentato:</h4>
+          <h4>{{ comment.userId }} ha commentato:</h4>
           <article class="book__view__comment__box">
             <div>
               <h4>Stile</h4>
@@ -519,12 +525,14 @@ async function handleNewReview() {
   .book_view__suggestions
     *
       margin-left: .1rem
+
   .book__view__comments
     .book__view__comment
       @include default-box
       border-radius: 1rem
       padding: .5rem
       margin-bottom: .5rem
+
       .book__view__comment__box
         margin-top: .3rem
         display: flex

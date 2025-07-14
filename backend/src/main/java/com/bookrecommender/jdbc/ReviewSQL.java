@@ -78,27 +78,27 @@ public class ReviewSQL {
         List<Review> recensioni = new LinkedList<>();
 
         try (Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Recensione WHERE LibroId = ?")) {
+             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Recensione WHERE libroid = ?")) {
 
             statement.setInt(1, libroId);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
                 recensioni.add(new Review(
-                        rs.getString("UserId"),
-                        rs.getInt("LibroId"),
-                        rs.getInt("StileVoto"),
-                        rs.getInt("ContenutoVoto"),
-                        rs.getInt("GradevolezzaVoto"),
-                        rs.getInt("OriginalitaVoto"),
-                        rs.getInt("EdizioneVoto"),
-                        rs.getString("StileCommento"),
-                        rs.getString("ContenutoCommento"),
-                        rs.getString("GradevolezzaCommento"),
-                        rs.getString("OriginalitaCommento"),
-                        rs.getString("EdizioneCommento"),
-                        rs.getInt("VotoFinale"),
-                        rs.getString("CommentoFinale")
+                        rs.getString("userid"),
+                        rs.getInt("libroid"),
+                        rs.getInt("stilevoto"),
+                        rs.getInt("contenutovoto"),
+                        rs.getInt("gradevolezzavoto"),
+                        rs.getInt("originalitavoto"),
+                        rs.getInt("edizionevoto"),
+                        rs.getString("stilecommento"),
+                        rs.getString("contenutocommento"),
+                        rs.getString("gradevolezzacommento"),
+                        rs.getString("originalitacommento"),
+                        rs.getString("edizionecommento"),
+                        rs.getInt("votofinale"),
+                        rs.getString("commentofinale")
                 ));
             }
             return recensioni;

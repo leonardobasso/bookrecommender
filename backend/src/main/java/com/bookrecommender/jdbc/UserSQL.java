@@ -24,7 +24,7 @@ public class UserSQL {
     public static User register(User user) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-                PreparedStatement statement = conn.prepareStatement("INSERT INTO Utente (UserId, Nome, Cognome, Password, Taxcode, Email) VALUES (?, ?, ?, ?, ?, ?)");
+                PreparedStatement statement = conn.prepareStatement("INSERT INTO Utente (userid, nome, cognome, password, taxcode, email) VALUES (?, ?, ?, ?, ?, ?)");
         ) {
             String hashedPassword = PassTools.hash(user.getPassword());
 
@@ -60,7 +60,7 @@ public class UserSQL {
     public static User login(String userId, String password) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-                PreparedStatement statement = conn.prepareStatement("SELECT * FROM Utente WHERE UserId = ?")
+                PreparedStatement statement = conn.prepareStatement("SELECT * FROM Utente WHERE userid = ?")
         ) {
             statement.setString(1, userId);
             ResultSet rs = statement.executeQuery();
@@ -68,12 +68,12 @@ public class UserSQL {
                 String hashedPass = rs.getString("Password");
                 if (PassTools.compare(password, hashedPass)) {
                     return new User(
-                            rs.getString("UserId"),
-                            rs.getString("Nome"),
-                            rs.getString("Cognome"),
+                            rs.getString("userid"),
+                            rs.getString("nome"),
+                            rs.getString("cognome"),
                             null,
-                            rs.getString("Taxcode"),
-                            rs.getString("Email")
+                            rs.getString("taxcode"),
+                            rs.getString("email")
                     );
                 }
             }

@@ -82,7 +82,7 @@ function hideDialog() {
       <section class="user__view__list user__view__list__infos">
         <div class="user__view__list__top">
           <h2>Le mie info</h2>
-          <button @click="state.user.setLogOut()" class="user__view__logout btn--red">
+          <button @click="state.user.setLogOut(); state.clearLibrary()" class="user__view__logout btn--red">
             Log out
           </button>
         </div>

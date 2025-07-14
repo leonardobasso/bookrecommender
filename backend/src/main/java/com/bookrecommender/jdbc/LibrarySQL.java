@@ -26,16 +26,16 @@ public class LibrarySQL {
     public static List<Libreria> getLibrariesByUser(String id) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-                PreparedStatement statement = conn.prepareStatement("SELECT * FROM Libreria WHERE UserId = ?");
+                PreparedStatement statement = conn.prepareStatement("SELECT * FROM Libreria WHERE userid = ?");
         ) {
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
             List<Libreria> librerias = new LinkedList<>();
             while (rs.next()) {
                 librerias.add(new Libreria(
-                        rs.getString("LibreriaId"),
-                        rs.getString("NomeLibreria"),
-                        rs.getString("UserId")
+                        rs.getString("libreriaid"),
+                        rs.getString("nomelibreria"),
+                        rs.getString("userid")
                 ));
             }
 
@@ -55,7 +55,7 @@ public class LibrarySQL {
     public static List<Book> getBooksByUser(String userId) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-                PreparedStatement statement = conn.prepareStatement("SELECT DISTINCT * FROM Libro l WHERE l.id IN (SELECT libroId FROM LibroInLibreria WHERE LibreriaId IN (SELECT LibreriaId FROM Libreria WHERE UserId = ?))")
+                PreparedStatement statement = conn.prepareStatement("SELECT DISTINCT * FROM Libro l WHERE l.id IN (SELECT libroid FROM LibroInLibreria WHERE libreriaid IN (SELECT libreriaid FROM libreria WHERE userid = ?))")
         ) {
             statement.setString(1, userId);
             ResultSet rs = statement.executeQuery();
@@ -63,14 +63,14 @@ public class LibrarySQL {
             while (rs.next()) {
                 books.add(new Book(
                         rs.getString("id"),
-                        rs.getString("Nome"),
-                        rs.getString("Autore"),
-                        rs.getString("Descrizione"),
-                        rs.getString("Categoria"),
-                        rs.getString("Publisher"),
-                        rs.getFloat("Prezzo"),
-                        rs.getString("MesePub"),
-                        rs.getInt("AnnoPub")
+                        rs.getString("nome"),
+                        rs.getString("autore"),
+                        rs.getString("descrizione"),
+                        rs.getString("categoria"),
+                        rs.getString("publisher"),
+                        rs.getFloat("prezzo"),
+                        rs.getString("mesepub"),
+                        rs.getInt("annopub")
                 ));
             }
             return books;
@@ -89,7 +89,7 @@ public class LibrarySQL {
     public static void createLibrary(String name, String userId) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-                PreparedStatement statement = conn.prepareStatement("INSERT INTO Libreria(NomeLibreria, UserId) VALUES (?, ?)");
+                PreparedStatement statement = conn.prepareStatement("INSERT INTO Libreria(nomelibreria, userid) VALUES (?, ?)");
         ) {
             statement.setString(1, name);
             statement.setString(2, userId);
@@ -110,7 +110,7 @@ public class LibrarySQL {
     public static void addBook(int libreriaId, int libroId) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
-                PreparedStatement statement = conn.prepareStatement("INSERT INTO LibroInLibreria(LibroId, LibreriaId) VALUES (?, ?)");
+                PreparedStatement statement = conn.prepareStatement("INSERT INTO LibroInLibreria(libroid, libreriaid) VALUES (?, ?)");
         ) {
             statement.setInt(1, libroId);
             statement.setInt(2, libreriaId);

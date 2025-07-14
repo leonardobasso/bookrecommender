@@ -48,7 +48,7 @@ async function handleSearch() {
       <div class="homepage__book__list__content">
         <article class="homepage__book" v-for="book in books" :key="book.id">
           <RouterLink :to="`/books/book/${book.id}`" :id="book.id">
-            <p class="collapsed-text">{{ book.title }}</p>
+            <p class="collapsed-text homepage__book__title">{{ book.title }}</p>
           </RouterLink>
           <p class="collapsed-text">{{book.author}}</p>
           <p class="collapsed-text">{{ book.year }}</p>
@@ -94,6 +94,8 @@ async function handleSearch() {
     display: grid
     justify-content: center
     margin-top: 1rem
+    .homepage__book__title
+      max-width: 30vw
 
     .homepage__book__list__content
       @include default-box

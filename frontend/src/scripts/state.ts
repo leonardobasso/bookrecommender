@@ -5,6 +5,7 @@ import {reactive} from 'vue'
  * @author Leonardo Basso
  */
 export const state = reactive({
+  libraryBooks: [] as { id: string, title: string }[],
   user: {
     isLogged: false,
     userId: '',
@@ -29,6 +30,7 @@ export const state = reactive({
       this.email = email
       this.taxcode = taxcode
       this.isLogged = true
+      this.libraryBooks = []
     },
     /**
      * Questa funzione va a rimuovere il precedente utente e a pone `isLogged` come `false`
@@ -44,9 +46,8 @@ export const state = reactive({
       this.libraryBooks = []
     },
   },
-  libraryBooks: [] as { id: string, title: string }[],
   clearLibrary() {
-    this.libraryBooks = []
+    this.libraryBooks.length = 0
   },
   addLibraryBook(id: string, title: string): void {
     this.libraryBooks.push({id, title});
