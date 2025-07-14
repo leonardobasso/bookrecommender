@@ -15,24 +15,48 @@ import {addBookInLibrary} from "@/scripts/crud/add-book-in-library.ts";
 import {createSuggestion} from "@/scripts/crud/create-suggestion.ts";
 import {fetchSuggestionsByBook} from "@/scripts/crud/fetch-suggestions-by-book.ts";
 import {fetchSuggestionsByUser} from "@/scripts/crud/fetch-suggestions-by-user.ts";
+import {createReview} from "@/scripts/crud/create-review.ts";
+import {fetchReviews} from "@/scripts/crud/fetch-reviews.ts";
 
 const route = useRoute();
 const router = useRouter()
-const bookData = ref<any>(null);
+
+//refs
 const errorMessage = ref<string | null>(null);
-const libraries = ref<Array<any>>([]);
+const bookData = ref<any>(null);
+
+const libraries = ref<Array<any>>([])
 const libraryDialog = ref<HTMLDialogElement | null>(null)
+
 const valutationDialog = ref<HTMLDialogElement | null>(null)
 const adviceDialog = ref<HTMLDialogElement | null>(null)
+
 const suggestedBooks = ref<Array>('')
 const mySuggestedBooks = ref<Array>('')
 
+const votoStileRef = ref<number | null>(null)
+const votoContenutoRef = ref<number | null>(null)
+const votoGradevolezzaRef = ref<number | null>(null)
+const votoOriginalitaRef = ref<number | null>(null)
+const votoEdizioneRef = ref<number | null>(null)
+const votoFinaleRef = ref<number | null>(null)
+const commentoStile = ref<string | null>(null)
+const commentoContenuto = ref<string | null>(null)
+const commentoGradevolezza = ref<string | null>(null)
+const commentoOriginalita = ref<string | null>(null)
+const commentoEdizione = ref<string | null>(null)
+const commentoFinale = ref<string | null>(null)
+
+// Function invocation + ref value declaration
 await loadData(route.params.id)
 suggestedBooks.value = await fetchSuggestionsByBook(route.params.id)
 mySuggestedBooks.value = await fetchSuggestionsByUser(state.user.userId, route.params.id)
 libraries.value = await fetchLibraries(state.user.userId)
-
+const reviews = await fetchReviews(route.params.id)
+console.log("reviews: ", reviews)
 await fetchLibraries(state.user.userId)
+
+// Function implementation
 
 /**
  * Ritorna i valori dei libri
@@ -90,11 +114,30 @@ async function handleAddSuggestion(racomendedId: string) {
     await createSuggestion(state.user.userId, racomendedId, route.params.id)
     suggestedBooks.value = await fetchSuggestionsByBook(route.params.id)
   } catch (e) {
-    console.log("ERRORE AH IO ESISTO")
     errorMessage.value = e
     throw new Error(e)
   } finally {
     hideDialog(adviceDialog)
+  }
+}
+
+async function handleNewReview() {
+  try {
+    const votoStile = votoStileRef.value.getRating();
+    const votoContenuto = votoContenutoRef.value.getRating();
+    const votoGradevolezza = votoGradevolezzaRef.value.getRating();
+    const votoOriginalita = votoOriginalitaRef.value.getRating();
+    const votoEdizione = votoEdizioneRef.value.getRating();
+    const votoFinale = votoFinaleRef.value.getRating();
+    const res = await createReview(state.user.userId, route.params.id, votoStile, votoContenuto,
+      votoGradevolezza, votoOriginalita, votoEdizione,
+      votoFinale, commentoStile.value, commentoContenuto.value,
+      commentoGradevolezza.value, commentoOriginalita.value, commentoEdizione.value,
+      commentoFinale.value)
+    console.log(res)
+  } catch (e) {
+    errorMessage.value = e
+    throw new Error(e)
   }
 }
 </script>
@@ -152,7 +195,7 @@ async function handleAddSuggestion(racomendedId: string) {
       <section class="book_view__preview" v-if="bookData">
         <img :src="bookData.image" alt="" class="book_view__cover"/>
         <div class="book_view__preview__data">
-          <StarRating :rating="4" :readonly="true"/>
+          <StarRating :rating="reviews.mediaVotoFinale" :readonly="true"/>
           <h1 class="book_view__preview__title">{{ bookData.title }}</h1>
           <p>{{ bookData.author }}, {{ bookData.year }}</p>
           <Pill :content="bookData.category"/>
@@ -164,7 +207,7 @@ async function handleAddSuggestion(racomendedId: string) {
       <section class="book_view__reviews">
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote">1/5</h2>
+            <h2 class="book_view__review__vote">{{reviews.mediaGradevolezza}}/5</h2>
             <h4 class="book_view__review__category">Gradevolezza</h4>
           </div>
         </article>
@@ -172,28 +215,28 @@ async function handleAddSuggestion(racomendedId: string) {
 
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote">2/5</h2>
+            <h2 class="book_view__review__vote">{{reviews.mediaStile}}/5</h2>
             <h4 class="book_view__review__category">Stile</h4>
           </div>
         </article>
 
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote">3/5</h2>
+            <h2 class="book_view__review__vote">{{reviews.mediaContenuto}}/5</h2>
             <h4 class="book_view__review__category">Contenuto</h4>
           </div>
         </article>
 
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote">4/5</h2>
+            <h2 class="book_view__review__vote">{{reviews.mediaOriginalita}}/5</h2>
             <h4 class="book_view__review__category">Originalità</h4>
           </div>
         </article>
 
         <article class="book_view__review">
           <div class="book_view__review__content">
-            <h2 class="book_view__review__vote">5/5</h2>
+            <h2 class="book_view__review__vote"> {{reviews.mediaEdizione}}/5</h2>
             <h4 class="book_view__review__category">Edizione</h4>
           </div>
         </article>
@@ -203,10 +246,6 @@ async function handleAddSuggestion(racomendedId: string) {
               style="margin-right: .3rem;">
         Valuta anche tu!
       </button>
-      <button v-if="showButtons" class="btn--green" @click="showDialog(adviceDialog)">
-        Consiglia un libro!
-      </button>
-
 
       <dialog ref="adviceDialog" class="book__view__advice">
         <div class="modal-top">
@@ -235,30 +274,35 @@ async function handleAddSuggestion(racomendedId: string) {
         <label class="book__view__evaluate__label">
           <div class="book__view__evaluate__input">
             <h3>Gradevolezza</h3>
-            <StarRating :rating="1"/>
-            <textarea placeholder="Gradevolezza"></textarea>
+            <StarRating :rating="1" ref="votoGradevolezzaRef"/>
+            <textarea placeholder="Gradevolezza" v-model="commentoGradevolezza"></textarea>
           </div>
           <div class="book__view__evaluate__input">
             <h3>Stile</h3>
-            <StarRating :rating="1"/>
-            <textarea placeholder="Stile"></textarea>
+            <StarRating :rating="1" ref="votoStileRef"/>
+            <textarea placeholder="Stile" v-model="commentoStile"></textarea>
           </div>
           <div class="book__view__evaluate__input">
             <h3>Contenuto</h3>
-            <StarRating :rating="1"/>
-            <textarea placeholder="Contenuto"></textarea>
+            <StarRating :rating="1" ref="votoContenutoRef"/>
+            <textarea placeholder="Contenuto" v-model="commentoContenuto"></textarea>
           </div>
           <div class="book__view__evaluate__input">
             <h3>Originalità</h3>
-            <StarRating :rating="1"/>
-            <textarea placeholder="Originalità"></textarea>
+            <StarRating :rating="1" ref="votoOriginalitaRef"/>
+            <textarea placeholder="Originalità" v-model="commentoOriginalita"></textarea>
           </div>
           <div class="book__view__evaluate__input">
             <h3>Edizione</h3>
-            <StarRating :rating="1"/>
-            <textarea placeholder="Edizione"></textarea>
+            <StarRating :rating="1" ref="votoEdizioneRef"/>
+            <textarea placeholder="Edizione" v-model="commentoEdizione"></textarea>
           </div>
-          <button class="btn--green">Valuta</button>
+          <div class="book__view__evaluate__input">
+            <h3>Considerazioni finali</h3>
+            <StarRating :rating="1" ref="votoFinaleRef"/>
+            <textarea placeholder="Commento Finale" v-model="commentoFinale"></textarea>
+          </div>
+          <button class="btn--green" @click="handleNewReview">Valuta</button>
         </label>
       </dialog>
 
@@ -274,8 +318,13 @@ async function handleAddSuggestion(racomendedId: string) {
         </RouterLink>
       </section>
       <h2 class="book_view__subtitles" v-if="state.user.isLogged">I miei libri consigliati: </h2>
-      <p v-if="mySuggestedBooks.length == 0">Nessun libro consigliato...</p>
+      <p v-if="mySuggestedBooks.length == 0 && state.user.isLogged">Non hai consigliato nessun libro...</p>
+
       <section v-if="state.user.isLogged" class="book_view__suggestions">
+        <button v-if="showButtons && mySuggestedBooks.length <= 3" class="btn--green"
+                @click="showDialog(adviceDialog)">
+          Consiglia un libro!
+        </button>
         <RouterLink
           v-for="book in mySuggestedBooks"
           :key="book.id"

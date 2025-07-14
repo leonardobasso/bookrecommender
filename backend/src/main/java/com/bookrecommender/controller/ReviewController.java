@@ -62,7 +62,7 @@ public class ReviewController {
      */
     public static void getReviewByBook(Context ctx) {
         try {
-            int libroId = Integer.parseInt(ctx.pathParam("libroId"));
+            int libroId = Integer.parseInt(ctx.pathParam("id"));
             List<Review> reviews = ReviewSQL.getReviewByBook(libroId);
             ctx.status(200).json(Map.of(
                     "status", "success",
