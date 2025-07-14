@@ -16,6 +16,13 @@ import java.util.List;
  * @see com.bookrecommender.controller.LibraryController
  */
 public class LibrarySQL {
+    /**
+     * Dato un utente, ritorna tutte le sue librerie
+     *
+     * @param id l'id dell'utente
+     * @return la lista delle librerie
+     * @author Lorenzo Beretta
+     */
     public static List<Libreria> getLibrariesByUser(String id) {
         try (
                 Connection conn = DriverManager.getConnection(DbInfo.url, DbInfo.user, DbInfo.pass);
@@ -42,6 +49,7 @@ public class LibrarySQL {
      * Esegue una query per riportare tutte le librerie di un determinato utente
      *
      * @param userId id dell'utente di cui si vogliono cercare le librerie
+     * @return La lista dei libri messi in una libreria da un utente
      * @author Lorenzo Beretta
      */
     public static List<Book> getBooksByUser(String userId) {
@@ -116,6 +124,7 @@ public class LibrarySQL {
      * esegue una query per riportare tutti i libri di una determinata libreria
      *
      * @param idLibreria id della libreria di cui si vuol vedere i libri legati
+     * @return  La lista dei libri dentro la libreria
      * @author Lorenzo Beretta
      */
     public static List<Book> details(int idLibreria) {

@@ -49,11 +49,6 @@ function hideDialog() {
 
 <template>
   <section class="user__view" v-if="state.user.isLogged">
-    <header class="user__view__top">
-      <button @click="state.user.setLogOut()" class="user__view__logout btn--red">
-        Log out
-      </button>
-    </header>
     <div class="user__view__content">
       <section class="user__view__list">
         <p v-if="errorMessage" style="color: #d9534f;">{{ errorMessage }}</p>
@@ -87,6 +82,9 @@ function hideDialog() {
       <section class="user__view__list user__view__list__infos">
         <div class="user__view__list__top">
           <h2>Le mie info</h2>
+          <button @click="state.user.setLogOut()" class="user__view__logout btn--red">
+            Log out
+          </button>
         </div>
         <div class="user__view__elements">
           <p class="user__view__el collapsed-text"><strong>UserID: </strong> {{ state.user.userId }}
@@ -110,10 +108,7 @@ function hideDialog() {
 
 <style scoped lang="sass">
 .user__view
-  .user__view__top
-    display: flex
-    justify-content: space-between
-    margin-bottom: .5rem
+  margin-top: 1rem
 
   .user__view__content
     display: flex

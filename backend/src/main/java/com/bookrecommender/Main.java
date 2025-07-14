@@ -16,7 +16,7 @@ public class Main {
     /**
      * Metodo per configurare Javalin e far partire il server
      *
-     * @param args
+     * @param args args
      * @author Leonard Basso
      */
     public static void main(String[] args) {

@@ -17,7 +17,12 @@ public class LibroInLibreria {
         this.idLibro = idLibro;
         this.idLibreria = idLibreria;
     }
-    public LibroInLibreria(){}
+
+    /**
+     * Serve a Jackson
+     */
+    public LibroInLibreria() {
+    }
 
     public int getIdLibro() {
         return idLibro;

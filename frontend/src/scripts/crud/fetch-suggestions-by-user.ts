@@ -6,8 +6,6 @@
  */
 export async function fetchSuggestionsByUser(userId: string, bookId: number) {
   const url = `http://localhost:7070/api/book/suggestion/get/user`
-  console.log(userId)
-  console.log(bookId)
   try {
     const req = {
       "userId": userId,

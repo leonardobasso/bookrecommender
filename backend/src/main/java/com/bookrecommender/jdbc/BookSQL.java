@@ -21,6 +21,7 @@ public class BookSQL {
      * @param suggestedId   id del libro
      * @param initialBookId id del libro che vede suggestedId come libro consigliato
      * @param userId        Id dell'utente
+     * @return l'id del libro consigliato
      * @author Lorenzo Beretta, Leonardo Basso
      */
     public static String insertLibriConsigliati(int suggestedId, int initialBookId, String userId) {
@@ -171,7 +172,7 @@ public class BookSQL {
      * Esegue la query sql per ritornare un libro specifico
      *
      * @param id id del libro da cercare
-     * @return
+     * @return il libro
      * @author Lorenzo Beretta
      */
     public static Book getSingleBook(int id) {

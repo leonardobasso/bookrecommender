@@ -71,6 +71,7 @@ public class ReviewSQL {
      * Esegue una query per riportare tutte le recensioni di un determinato libro
      *
      * @param libroId id del libro di cui si vogliono le recensioni
+     * @return La lista delle review di un libro
      * @author Lorenzo Beretta
      */
     public static List<Review> getReviewByBook(int libroId) {

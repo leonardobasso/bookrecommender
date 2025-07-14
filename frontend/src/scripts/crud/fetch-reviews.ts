@@ -15,8 +15,6 @@ export async function fetchReviews(bookId: number) {
     }
 
     const res = await req.json()
-    console.log("Res Body", res.body)
-
     if (res.status !== 'success') {
       throw new Error(res.body)
     }

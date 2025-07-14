@@ -13,8 +13,9 @@ public class Libreria {
 
     /**
      * Model della libreria
+     *
      * @param libreriaID L'id della libreria
-     * @param userID L'id dell'utente che ha creato la libreria
+     * @param userID     L'id dell'utente che ha creato la libreria
      * @author Leonardo Basso
      */
     public Libreria(String libreriaID, String nomeLibreria, String userID) {
@@ -22,8 +23,13 @@ public class Libreria {
         this.nomeLibreria = nomeLibreria;
         this.userId = userID;
     }
+
+    /**
+     * Serve a Jackson
+     */
     public Libreria() {
     }
+
     public String getLibreriaId() {
         return LibreriaId;
     }

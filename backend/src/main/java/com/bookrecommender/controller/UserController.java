@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class UserController {
     /**
-     * Controller per la registrazione
+     * Registra l'utente e ne ritorna i dati
      *
      * @param ctx Context
      * @author Leonardo Basso
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     /**
-     * Controller per il login
+     * logga l'utente e ne ritorna i dati
      *
      * @param ctx Context
      * @author Leonardo Basso

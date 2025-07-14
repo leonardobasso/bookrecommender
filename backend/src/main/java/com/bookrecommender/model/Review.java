@@ -60,6 +60,9 @@ public class Review {
         this.commentoFinale = commentoFinale;
     }
 
+    /**
+     * Serve a Jackson
+     */
     public Review() {
 
     }
