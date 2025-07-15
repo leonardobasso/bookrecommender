@@ -1,0 +1,7 @@
+Autori
+Università degli Studi dell’Insubria – Laurea Triennale in Informatica, COMO
+Progetto Laboratorio Interdisciplinare B: Book Recommender 
+Sviluppato da: 
+- Matricola 754687, Magni Giulia, COMO
+- Matricola 758987, Basso Leonardo, COMO
+- Matricola 754625, Beretta Lorenzo, COMO

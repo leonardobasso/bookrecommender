@@ -13,7 +13,7 @@ const props = defineProps({
   },
 });
 
-const rating = ref(props.rating);
+const ratingValue = ref(props.rating);
 
 /**
  *  Funzione per impostare il rating quando si clicca su una stella se il componente non è in modalità di
@@ -22,7 +22,7 @@ const rating = ref(props.rating);
  */
 function setRating(value: number) {
   if (!props.readonly) {
-    rating.value = value;
+    ratingValue.value = value;
   }
 }
 
@@ -30,7 +30,7 @@ function setRating(value: number) {
  * Getter per il valore della votazione
  */
 function getRating(): number {
-  return rating.value;
+  return ratingValue.value;
 }
 
 defineExpose({
@@ -43,7 +43,7 @@ defineExpose({
     <span
       v-for="star in 5"
       :key="star"
-      :class="['star', { 'star-filled': star <= rating }]"
+      :class="['star', { 'star-filled': star <= ratingValue }]"
       @click="setRating(star)"
       :style="{ cursor: props.readonly ? 'default' : 'pointer' }"
     >

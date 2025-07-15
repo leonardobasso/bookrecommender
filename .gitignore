@@ -28,3 +28,7 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+# Java
+backend/shelf/
+backend/workspace.xml
+backend/mavenHomeManager.xml

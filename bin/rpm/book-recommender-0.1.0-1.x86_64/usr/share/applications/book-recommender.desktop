@@ -1,0 +1,8 @@
+[Desktop Entry]
+Categories=
+Comment=A Tauri App
+Exec=app
+Icon=app
+Name=book-recommender
+Terminal=false
+Type=Application

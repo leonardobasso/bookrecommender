@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: libreria
+    volumes:
+      - ./db/sql/CreateDB.sql:/docker-entrypoint-initdb.d/1-create-tables.sql
+      - ./db/sql/PopulateDB.sql:/docker-entrypoint-initdb.d/2-populate-data.sql
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    ports:
+      - "7070:7070"
+    depends_on:
+      - db
