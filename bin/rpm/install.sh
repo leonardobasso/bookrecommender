@@ -9,4 +9,4 @@ sudo rpm --import key.pub
 
 echo "Installing the rpm..."
 sudo rpm -i ./book-recommender-0.1.0-1.x86_64.rpm
-
+echo "Installed"
