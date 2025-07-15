@@ -1,4 +1,6 @@
+
 # Frontend
+All'interno del progetto si posso trovare già presenti gli eseguibili nella cartella ```/bin```
 
 ## Installare le dipendenze del programma
 
