@@ -2,12 +2,12 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "book-recommender",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.github.leonardobasso",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:5173",
     "beforeDevCommand": "pnpm dev",
-    "beforeBuildCommand": "pnpm build"
+    "beforeBuildCommand": "vite build"
   },
   "app": {
     "windows": [
